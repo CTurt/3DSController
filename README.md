@@ -18,7 +18,7 @@ To make sure it worked, open Notepad and press some buttons on the 3DS, they sho
 To return back to the Homebrew Loader, hold down Start and Select.
 
 ### Troubleshooting
-Make sure your 3DS has internet access and is on the same network as your PC,
-Make sure that the `3DSController.ini` is in the root of your 3DS's SD card,
-Make sure that the `3DSController.ini` has the local IP of your computer, not your public IP,
-Make sure your firewall isn't blocking the application,
+- Make sure your 3DS has internet access and is on the same network as your PC,
+- Make sure that the `3DSController.ini` is in the root of your 3DS's SD card,
+- Make sure that the `3DSController.ini` has the local IP of your computer, not your public IP,
+- Make sure your firewall isn't blocking the application,

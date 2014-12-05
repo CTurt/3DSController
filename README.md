@@ -1,5 +1,6 @@
-3DSController
-=============
+3DSController ![](/3DS/cxi/icon48x48.png?raw=true)
+===
+
 A 3DS homebrew application which allows you to use your 3DS as a wireless controller for Windows.
 
 ### Download

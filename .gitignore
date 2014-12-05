@@ -1,5 +1,8 @@
 3DS/build/
 3DS/*.elf
+3DS/*stripped.elf
 3DS/*.3dsx
+3DS/*.3ds
+3DS/*.cia
 PC/build/
 PC/*.exe

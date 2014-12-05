@@ -26,7 +26,7 @@ include $(DEVKITARM)/3ds_rules
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-TARGET		:=	$(notdir $(CURDIR))
+TARGET		:=	3DSController
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
@@ -125,7 +125,7 @@ $(BUILD):
 #---------------------------------------------------------------------------------
 clean:
 	@echo clean ...
-	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf
+	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).3ds $(OUTPUT).cia $(OUTPUT).smdh $(TARGET).elf $(OUTPUT)stripped.elf
 
 
 #---------------------------------------------------------------------------------
@@ -138,10 +138,22 @@ DEPENDS	:=	$(OFILES:.o=.d)
 #---------------------------------------------------------------------------------
 ifeq ($(strip $(NO_SMDH)),)
 .PHONY: all
-all	:	$(OUTPUT).3dsx $(OUTPUT).smdh
+all	:	$(OUTPUT).3dsx $(OUTPUT).3ds $(OUTPUT).cia $(OUTPUT).smdh
 endif
+
 $(OUTPUT).3dsx	:	$(OUTPUT).elf
+
+$(OUTPUT).3ds	:	$(OUTPUT)stripped.elf
+	makerom -f cci -o $(OUTPUT).3ds -rsf "$(TOPDIR)/cxi/gw_workaround.rsf" -target d -exefslogo -elf $(OUTPUT)stripped.elf -icon "$(TOPDIR)/cxi/icon.icn" -banner "$(TOPDIR)/cxi/banner.bnr"
+
+$(OUTPUT).cia	:	$(OUTPUT)stripped.elf
+	makerom -f cia -o $(OUTPUT).cia -elf $(OUTPUT)stripped.elf -rsf "$(TOPDIR)/cxi/build_cia.rsf" -icon "$(TOPDIR)/cxi/icon.icn" -banner "$(TOPDIR)/cxi/banner.bnr" -exefslogo -target t
+
 $(OUTPUT).elf	:	$(OFILES)
+
+$(OUTPUT)stripped.elf : $(OUTPUT).elf
+	cp -f $(OUTPUT).elf $(OUTPUT)stripped.elf
+	@arm-none-eabi-strip $(OUTPUT)stripped.elf
 
 #---------------------------------------------------------------------------------
 # you need a rule like this for each extension you use as binary data

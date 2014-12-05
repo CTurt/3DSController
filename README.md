@@ -2,6 +2,9 @@
 =============
 A 3DS homebrew application which allows you to use your 3DS as a wireless controller for Windows.
 
+### Download
+The latest release will always be downloadable from [here](https://github.com/CTurt/3DSController/releases/).
+
 ### Setup and Usage
 Firstly, if you want to be able to use the circle pad as a joystick you will need to install [vJoy](http://vjoystick.sourceforge.net/site/index.php/download-a-install). However, if you just want to use the buttons, this is not necessary.
 

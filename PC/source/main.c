@@ -10,6 +10,7 @@
 #include "keys.h"
 #include "general.h"
 #include "joystick.h"
+#include "settings.h"
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
 	printf("3DS Controller Server %.2f\n", VERSION);
@@ -18,13 +19,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	UINT iInterface = 1;
 	
 	if(vJoy && !vJoyEnabled()) {
-		printf("vJoy failed (1)! Buttons will still work, but control stick won't work.\n");
+		printf("vJoy failed (1)! Buttons will still work, but joy stick won't work.\n");
 		vJoy = false;
 	}
 	
 	enum VjdStat status = GetVJDStatus(iInterface);
 	if(vJoy && (status == VJD_STAT_OWN || (status == VJD_STAT_FREE && !AcquireVJD(iInterface)))) {
-		printf("vJoy failed (2)! Buttons will still work, but control stick won't work.\n");
+		printf("vJoy failed (2)! Buttons will still work, but joy stick won't work.\n");
 		vJoy = false;
 	}
 	
@@ -32,13 +33,17 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	//int DiscPovNumber = GetVJDDiscPovNumber(iInterface);
 	
 	if(vJoy && !updateJoystick(128 * 128, 128 * 128)) {
-		printf("vJoy failed (3)! Buttons will still work, but control stick won't work.\n");
+		printf("vJoy failed (3)! Buttons will still work, but joy stick won't work.\n");
 		vJoy = false;
 	}
 	
 	initNetwork();
 	
 	printf("Running on: %s\n\n", hostName);
+	
+	if(!readSettings()) {
+		printf("Couldn't read settings file, using default key bindings\n");
+	}
 	
 	startListening();
 	
@@ -84,20 +89,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				memcpy(&currentTouch, &((struct packet *)buffer)->touch, 4);
 				#pragma GCC diagnostic pop
 				
-				handleKey(KEY_A, 'A');
-				handleKey(KEY_B, 'B');
-				handleKey(KEY_SELECT, VK_BACK);
-				handleKey(KEY_START, VK_RETURN);
-				handleKey(KEY_DRIGHT, VK_RIGHT);
-				handleKey(KEY_DLEFT, VK_LEFT);
-				handleKey(KEY_DUP, VK_UP);
-				handleKey(KEY_DDOWN, VK_DOWN);
-				handleKey(KEY_R, 'R');
-				handleKey(KEY_L, 'L');
-				handleKey(KEY_X, 'X');
-				handleKey(KEY_Y, 'Y');
-				
-				//handleKey(KEY_TOUCH, VK_LBUTTON);
+				handleKey(KEY_A, settings.A);
+				handleKey(KEY_B, settings.B);
+				handleKey(KEY_SELECT, settings.Select);
+				handleKey(KEY_START, settings.Start);
+				handleKey(KEY_DRIGHT, settings.Right);
+				handleKey(KEY_DLEFT, settings.Left);
+				handleKey(KEY_DUP, settings.Up);
+				handleKey(KEY_DDOWN, settings.Down);
+				handleKey(KEY_R, settings.R);
+				handleKey(KEY_L, settings.L);
+				handleKey(KEY_X, settings.X);
+				handleKey(KEY_Y, settings.Y);
+				handleKey(KEY_TOUCH, settings.Tap);
 				//handleKey(KEY_LID, 'I');
 				
 				if(newpress(KEY_TOUCH)) {

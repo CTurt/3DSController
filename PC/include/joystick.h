@@ -13,5 +13,4 @@ extern int ContPovNumber;
 extern UINT iInterface;
 extern BOOL ContinuousPOV;
 
-void updateJoystick(int x, int y);
-
+BOOL updateJoystick(int x, int y);

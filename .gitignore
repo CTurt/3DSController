@@ -2,6 +2,7 @@
 3DS/*.elf
 3DS/*stripped.elf
 3DS/*.3dsx
+3DS/*.smdh
 3DS/*.3ds
 3DS/*.cia
 PC/build/

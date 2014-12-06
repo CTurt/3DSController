@@ -24,7 +24,7 @@ Otherwise, you will just see a black screen, it should work. To make sure it wor
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Troubleshooting
-- Make sure your 3DS has internet access and is on the same network as your PC,
-- Make sure that the `3DSController.ini` is in the root of your 3DS's SD card,
+- Make sure your 3DS has internet access (turn on the switch on the side of the 3DS so that an orange light shows) and is on the same network as your PC,
+- Make sure that the `3DSController.ini` is in the root of your 3DS's SD card (not flashcard micro SD),
 - Make sure that the `3DSController.ini` has the local IP of your computer, not your public IP,
 - Make sure your firewall isn't blocking the application,

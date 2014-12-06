@@ -32,6 +32,11 @@ SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 
+APP_TITLE		:=	3DS Controller
+APP_DESCRIPTION	:=
+APP_AUTHOR		:=	CTurt
+ICON			:=	cxi/icon48x48.png
+
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------

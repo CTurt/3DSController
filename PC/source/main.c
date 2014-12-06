@@ -3,6 +3,7 @@
 #define VERSION 0.01
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 #include "wireless.h"
@@ -13,18 +14,27 @@
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
 	printf("3DS Controller Server %.2f\n", VERSION);
 	
+	bool vJoy = true;
 	UINT iInterface = 1;
-	if(!vJoyEnabled()) {
-		printf("vJoy failed! Buttons will still work, but control stick won't work.\n");
+	
+	if(vJoy && !vJoyEnabled()) {
+		printf("vJoy failed (1)! Buttons will still work, but control stick won't work.\n");
+		vJoy = false;
 	}
 	
 	enum VjdStat status = GetVJDStatus(iInterface);
-	if((status == VJD_STAT_OWN) || ((status == VJD_STAT_FREE) && (!AcquireVJD(iInterface)))) {
+	if(vJoy && (status == VJD_STAT_OWN || (status == VJD_STAT_FREE && !AcquireVJD(iInterface)))) {
 		printf("vJoy failed (2)! Buttons will still work, but control stick won't work.\n");
+		vJoy = false;
 	}
 	
 	ContPovNumber = GetVJDContPovNumber(iInterface);
 	//int DiscPovNumber = GetVJDDiscPovNumber(iInterface);
+	
+	if(vJoy && !updateJoystick(128 * 128, 128 * 128)) {
+		printf("vJoy failed (3)! Buttons will still work, but control stick won't work.\n");
+		vJoy = false;
+	}
 	
 	initNetwork();
 	
@@ -101,7 +111,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					SetCursorPos(p.x + (currentTouch.x - lastTouch.x), p.y + (currentTouch.y - lastTouch.y));
 				}
 				
-				updateJoystick((cstick.x + 128) * 128, (128 - cstick.y) * 128);
+				if(vJoy) updateJoystick((cstick.x + 128) * 128, (128 - cstick.y) * 128);
 				break;
 		}
 	}

@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 #include "joystick.h"
 
@@ -6,7 +7,7 @@ int ContPovNumber;
 UINT iInterface = 1;
 BOOL ContinuousPOV = FALSE;
 
-void updateJoystick(int x, int y) {
+BOOL updateJoystick(int x, int y) {
 	BYTE id = (BYTE)iInterface;
 	JOYSTICK_POSITION iReport;
 	
@@ -31,9 +32,13 @@ void updateJoystick(int x, int y) {
 	};
 	
 	if(!UpdateVJD(iInterface, (PVOID)&iReport)) {
-		printf("vJoy device %d failed - try to enable device then press enter\n", iInterface);
+		/*printf("vJoy device %d failed - try to enable device\n", iInterface);
+		printf("PRESS ENTER TO CONTINUE\n");
 		getchar();
 		AcquireVJD(iInterface);
-		ContinuousPOV = (BOOL)GetVJDContPovNumber(iInterface);
+		ContinuousPOV = (BOOL)GetVJDContPovNumber(iInterface);*/
+		return false;
 	}
+	
+	return true;
 }

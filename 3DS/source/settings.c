@@ -21,7 +21,6 @@ bool readSettings(void) {
 	ret = FSFILE_GetSize(fileHandle, &size);
 	if(ret) return false;
 	
-	//buffer = linearAlloc(size);
 	buffer = malloc(size);
 	if(!buffer) return false;
 	
@@ -31,8 +30,13 @@ bool readSettings(void) {
 	ret = FSFILE_Close(fileHandle);
 	if(ret) return false;
 	
+	strncpy(settings.IPString, (char *)buffer, 15);
+	buffer[15] = '\0';
+	
 	//inet_pton(AF_INET, buffer, &(saout.sin_addr));
 	inet_pton4((const char *)buffer, (unsigned char *)&(saout.sin_addr));
+	
+	settings.port = DEFAULT_PORT;
 	
 	free(buffer);
 	

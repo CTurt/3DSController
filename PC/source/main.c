@@ -58,8 +58,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 			case CONNECT:
 				lastKeys = 0;
 				currentKeys = 0;
-				cstick.x = 0;
-				cstick.y = 0;
+				circlePad.x = 0;
+				circlePad.y = 0;
 				lastTouch.x = 0;
 				lastTouch.y = 0;
 				currentTouch.x = 0;
@@ -85,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				#pragma GCC diagnostic push
 				#pragma GCC diagnostic ignored "-Wstrict-aliasing"
 				memcpy(&currentKeys, &((struct packet *)buffer)->keys, 4);
-				memcpy(&cstick, &((struct packet *)buffer)->cstick, 4);
+				memcpy(&circlePad, &((struct packet *)buffer)->circlePad, 4);
 				memcpy(&currentTouch, &((struct packet *)buffer)->touch, 4);
 				#pragma GCC diagnostic pop
 				
@@ -123,10 +123,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				if(settings.circlePad == mouse) {
 					POINT p;
 					GetCursorPos(&p);
-					SetCursorPos(p.x + cstick.x / 64, p.y + cstick.y / 64);
+					SetCursorPos(p.x + circlePad.x / 64, p.y + circlePad.y / 64);
 				}
 				else if(settings.circlePad == joystick) {
-					if(vJoy) updateJoystick((cstick.x + 128) * 128, (128 - cstick.y) * 128);
+					if(vJoy) updateJoystick((circlePad.x + 128) * 128, (128 - circlePad.y) * 128);
 				}
 				
 				break;

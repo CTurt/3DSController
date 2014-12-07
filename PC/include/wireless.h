@@ -23,7 +23,7 @@ struct packet {
 	struct {
 		short x;
 		short y;
-	} cstick;
+	} circlePad;
 	
 	struct {
 		unsigned short x;

@@ -3,7 +3,7 @@
 unsigned int lastKeys;
 unsigned int currentKeys;
 
-struct cstick cstick;
+struct circlePad circlePad;
 struct touch lastTouch;
 struct touch currentTouch;
 

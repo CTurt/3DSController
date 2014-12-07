@@ -44,7 +44,7 @@ typedef enum {
 	KEY_RIGHT = KEY_DRIGHT | KEY_CPAD_RIGHT,
 } KEYPAD_BITS;
 
-struct cstick {
+struct circlePad {
 	short x;
 	short y;
 };
@@ -57,7 +57,7 @@ struct touch {
 extern unsigned int lastKeys;
 extern unsigned int currentKeys;
 
-extern struct cstick cstick;
+extern struct circlePad circlePad;
 extern struct touch lastTouch;
 extern struct touch currentTouch;
 

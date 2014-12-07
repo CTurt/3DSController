@@ -25,6 +25,30 @@ struct settings defaultSettings = {
 };
 
 bool readSettings(void) {
+	FILE *f;
+	size_t len = 0;
+	char *buffer = NULL;
+	
 	memcpy(&settings, &defaultSettings, sizeof(struct settings));
+	
+	f = fopen("3DSController.ini", "rb");
+	if(!f) {
+		return false;
+	}
+	
+	fseek(f, 0, SEEK_END);
+	len = ftell(f);
+	rewind(f);
+	
+	buffer = malloc(len);
+	if(!buffer) {
+		fclose(f);
+		return false;
+	}
+	
+	
+	
+	fclose(f);
+	
 	return true;
 }

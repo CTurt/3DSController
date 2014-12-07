@@ -42,7 +42,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	printf("Running on: %s\n\n", hostName);
 	
 	if(!readSettings()) {
-		printf("Couldn't read settings file, using default key bindings\n");
+		printf("Couldn't read settings file, using default key bindings.\n");
 	}
 	
 	startListening();

@@ -29,7 +29,7 @@ static bool getSetting(char *name, char *src, char *dest) {
 	
 	if(start) {
 		char *end = start + strlen(start);
-		if(strstr(start, "\n") < end) end = strstr(start, "\n") - 1;
+		if(strstr(start, "\n") - 1 < end) end = strstr(start, "\n") - 1;
 		size_t size = (size_t)end - (size_t)start;
 		
 		strncpy(dest, start, size);
@@ -49,7 +49,8 @@ static int getButton(char *string) {
 	else if(strcmp(string, "RIGHT") == 0) return VK_RIGHT;
 	else if(strcmp(string, "UP") == 0) return VK_UP;
 	else if(strcmp(string, "DOWN") == 0) return VK_DOWN;
-	else return (int)*string;
+	
+	return (int)string[0];
 }
 
 bool readSettings(void) {

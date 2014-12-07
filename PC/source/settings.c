@@ -41,6 +41,17 @@ static bool getSetting(char *name, char *src, char *dest) {
 	return false;
 }
 
+static int getButton(char *string) {
+	if(strcmp(string, "SPACE") == 0) return VK_SPACE;
+	else if(strcmp(string, "ENTER") == 0) return VK_RETURN;
+	else if(strcmp(string, "BACKSPACE") == 0) return VK_BACK;
+	else if(strcmp(string, "LEFT") == 0) return VK_LEFT;
+	else if(strcmp(string, "RIGHT") == 0) return VK_RIGHT;
+	else if(strcmp(string, "UP") == 0) return VK_UP;
+	else if(strcmp(string, "DOWN") == 0) return VK_DOWN;
+	else return (int)*string;
+}
+
 bool readSettings(void) {
 	FILE *f;
 	size_t len = 0;
@@ -65,7 +76,7 @@ bool readSettings(void) {
 	
 	fread(buffer, 1, len, f);
 	
-	char setting[64] = { '\0', };
+	char setting[64] = { '\0' };
 	
 	getSetting("circlePad: ", buffer, setting);
 	if(strcmp(setting, "mouse") == 0) settings.circlePad = mouse;
@@ -75,19 +86,19 @@ bool readSettings(void) {
 	if(strcmp(setting, "mouse") == 0) settings.touch = mouse;
 	else if(strcmp(setting, "joystick") == 0) settings.touch = joystick;
 	
-	if(getSetting("A: ", buffer, setting)) settings.A = setting[0];
-	if(getSetting("B: ", buffer, setting)) settings.B = setting[0];
-	if(getSetting("X: ", buffer, setting)) settings.X = setting[0];
-	if(getSetting("Y: ", buffer, setting)) settings.Y = setting[0];
-	if(getSetting("L: ", buffer, setting))	settings.L = setting[0];
-	if(getSetting("R: ", buffer, setting)) settings.R = setting[0];
-	if(getSetting("Left: ", buffer, setting)) settings.Left = setting[0];
-	if(getSetting("Right: ", buffer, setting)) settings.Right = setting[0];
-	if(getSetting("Up: ", buffer, setting)) settings.Up = setting[0];
-	if(getSetting("Down: ", buffer, setting)) settings.Down = setting[0];
-	if(getSetting("Start: ", buffer, setting)) settings.Start = setting[0];
-	if(getSetting("Select: ", buffer, setting)) settings.Select = setting[0];
-	if(getSetting("Tap: ", buffer, setting)) settings.Tap = setting[0];
+	if(getSetting("A: ", buffer, setting)) settings.A = getButton(setting);
+	if(getSetting("B: ", buffer, setting)) settings.B = getButton(setting);
+	if(getSetting("X: ", buffer, setting)) settings.X = getButton(setting);
+	if(getSetting("Y: ", buffer, setting)) settings.Y = getButton(setting);
+	if(getSetting("L: ", buffer, setting))	settings.L = getButton(setting);
+	if(getSetting("R: ", buffer, setting)) settings.R = getButton(setting);
+	if(getSetting("Left: ", buffer, setting)) settings.Left = getButton(setting);
+	if(getSetting("Right: ", buffer, setting)) settings.Right = getButton(setting);
+	if(getSetting("Up: ", buffer, setting)) settings.Up = getButton(setting);
+	if(getSetting("Down: ", buffer, setting)) settings.Down = getButton(setting);
+	if(getSetting("Start: ", buffer, setting)) settings.Start = getButton(setting);
+	if(getSetting("Select: ", buffer, setting)) settings.Select = getButton(setting);
+	if(getSetting("Tap: ", buffer, setting)) settings.Tap = getButton(setting);
 	
 	fclose(f);
 	

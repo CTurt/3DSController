@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				if(settings.circlePad == mouse) {
 					POINT p;
 					GetCursorPos(&p);
-					SetCursorPos(p.x + circlePad.x / 64, p.y + circlePad.y / 64);
+					SetCursorPos(p.x + circlePad.x / 32, p.y - circlePad.y / 32);
 				}
 				else if(settings.circlePad == joystick) {
 					if(vJoy) updateJoystick((circlePad.x + 128) * 128, (128 - circlePad.y) * 128);

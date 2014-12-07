@@ -110,12 +110,25 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				}
 				
 				if(currentKeys & KEY_TOUCH) {
-					POINT p;
-					GetCursorPos(&p);
-					SetCursorPos(p.x + (currentTouch.x - lastTouch.x), p.y + (currentTouch.y - lastTouch.y));
+					if(settings.touch == mouse) {
+						POINT p;
+						GetCursorPos(&p);
+						SetCursorPos(p.x + (currentTouch.x - lastTouch.x), p.y + (currentTouch.y - lastTouch.y));
+					}
+					else if(settings.touch == joystick) {
+						if(vJoy) updateJoystick((currentTouch.x) * 128, (240 - currentTouch.y) * 128);
+					}
 				}
 				
-				if(vJoy) updateJoystick((cstick.x + 128) * 128, (128 - cstick.y) * 128);
+				if(settings.circlePad == mouse) {
+					POINT p;
+					GetCursorPos(&p);
+					SetCursorPos(p.x + cstick.x / 64, p.y + cstick.y / 64);
+				}
+				else if(settings.circlePad == joystick) {
+					if(vJoy) updateJoystick((cstick.x + 128) * 128, (128 - cstick.y) * 128);
+				}
+				
 				break;
 		}
 	}

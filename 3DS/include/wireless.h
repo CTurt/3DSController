@@ -12,7 +12,6 @@
 
 #include "inet_pton.h"
 
-//#define DEFAULT_IP { 192, 168, 0, 4 }
 #define DEFAULT_PORT 8888
 
 enum NET_COMMANDS {
@@ -28,7 +27,7 @@ struct packet {
 	struct {
 		short x;
 		short y;
-	} cstick;
+	} circlePad;
 	
 	struct {
 		unsigned short x;
@@ -38,9 +37,10 @@ struct packet {
 
 extern int sock;
 extern struct sockaddr_in sain, saout;
-extern char outBuf[sizeof(struct packet)], rcvBuf[sizeof(struct packet)];
+//extern char outBuf[sizeof(struct packet)], rcvBuf[sizeof(struct packet)];
+extern struct packet outBuf, rcvBuf;
 
 bool openSocket(int port);
 void sendBuf(int length);
 void sendConnectionRequest(void);
-void sendKeys(unsigned int keys, circlePosition cstick, touchPosition touch);
+void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch);

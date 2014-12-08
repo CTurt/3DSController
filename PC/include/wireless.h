@@ -38,7 +38,8 @@ extern struct sockaddr_in client_in;
 
 extern int sockaddr_in_sizePtr;
 
-extern char buffer[sizeof(struct packet)];
+//extern char buffer[sizeof(struct packet)];
+extern struct packet buffer;
 extern char hostName[80];
 
 void initNetwork(void);

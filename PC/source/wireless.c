@@ -9,7 +9,8 @@ struct sockaddr_in client_in;
 
 int sockaddr_in_sizePtr = (int)sizeof(struct sockaddr_in);
 
-char buffer[sizeof(struct packet)];
+//char buffer[sizeof(struct packet)];
+struct packet buffer;
 char hostName[80];
 
 void initNetwork(void) {
@@ -48,11 +49,11 @@ void startListening(void) {
 }
 
 void sendBuffer(int length) {
-	if(sendto(listener, buffer, length, 0, (struct sockaddr *)&client_in, sizeof(struct sockaddr_in)) != length) {
+	if(sendto(listener, (char *)&buffer, length, 0, (struct sockaddr *)&client_in, sizeof(struct sockaddr_in)) != length) {
 		error("sendto");
 	}
 }
 
 int receiveBuffer(int length) {
-	return recvfrom(listener, buffer, length, 0, (struct sockaddr *)&client_in, &sockaddr_in_sizePtr);
+	return recvfrom(listener, (char *)&buffer, length, 0, (struct sockaddr *)&client_in, &sockaddr_in_sizePtr);
 }

@@ -39,7 +39,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	initNetwork();
 	
-	printf("Running on: %s\n\n", hostName);
+	printf("Running on: %s\n", hostName);
+	
+	printf("Your local IP(s):\n");
+	printIPs();
+	
+	printf("\n");
 	
 	if(!readSettings()) {
 		printf("Couldn't read settings file, using default key bindings.\n");

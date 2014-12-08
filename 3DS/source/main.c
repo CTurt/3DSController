@@ -41,7 +41,7 @@ int main(void) {
 			hidScanInput();
 			
 			clearScreen();
-			drawString(10, 10, "Failed! Press Start and Select to exit.");
+			drawString(10, 10, "Failed! Could not read settings! Press Start and Select to exit.");
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;
@@ -78,6 +78,9 @@ int main(void) {
 		hidCircleRead(&circlePad);
 		touchPosition touch;
 		touchRead(&touch);
+		
+		clearScreen();
+		drawString(10, 10, "Connected to %s on port %d!", settings.IPString, settings.port);
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
 		

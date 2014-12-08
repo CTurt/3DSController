@@ -30,7 +30,7 @@ void sendConnectionRequest(void) {
 
 void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) {
 	//outBuf[0] = KEYS;
-	outBuf.command = keys;
+	outBuf.command = KEYS;
 	
 	//memcpy(outBuf + 1, &keys, 4);
 	//memcpy(outBuf + 5, &cstick, 4);

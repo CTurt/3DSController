@@ -48,7 +48,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	startListening();
 	
 	while(1) {
-		ZeroMemory(buffer, sizeof(struct packet));
+		//ZeroMemory(buffer, sizeof(struct packet));
+		memset(&buffer, 0, sizeof(packet));
 		
 		while(receiveBuffer(sizeof(struct packet)) <= 0) {
 			// Waiting

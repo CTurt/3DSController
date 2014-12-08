@@ -2,7 +2,8 @@
 
 int sock;
 struct sockaddr_in sain, saout;
-char outBuf[sizeof(struct packet)], rcvBuf[sizeof(struct packet)];
+//char outBuf[sizeof(struct packet)], rcvBuf[sizeof(struct packet)];
+struct packet outBuf, rcvBuf;
 
 bool openSocket(int port) {
 	sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -19,23 +20,31 @@ bool openSocket(int port) {
 }
 
 void sendBuf(int length) {
-	sendto(sock, outBuf, length, 0, (struct sockaddr *)&saout, sizeof(saout));
+	sendto(sock, (char *)&outBuf, length, 0, (struct sockaddr *)&saout, sizeof(saout));
 }
 
 void sendConnectionRequest(void) {
-	outBuf[0] = CONNECT;
+	outBuf.command = CONNECT;
 	sendBuf(1);
 }
 
-void sendKeys(unsigned int keys, circlePosition cstick, touchPosition touch) {
-	outBuf[0] = KEYS;
+void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) {
+	//outBuf[0] = KEYS;
+	outBuf.command = keys;
+	
 	//memcpy(outBuf + 1, &keys, 4);
 	//memcpy(outBuf + 5, &cstick, 4);
-	#pragma GCC diagnostic push
-	#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-	memcpy(&((struct packet *)outBuf)->keys, &keys, 4);
-	memcpy(&((struct packet *)outBuf)->cstick, &cstick, 4);
-	memcpy(&((struct packet *)outBuf)->touch, &touch, 4);
+	
+	//#pragma GCC diagnostic push
+	//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+	//memcpy(&((struct packet *)outBuf)->keys, &keys, 4);
+	//memcpy(&((struct packet *)outBuf)->cstick, &cstick, 4);
+	//memcpy(&((struct packet *)outBuf)->touch, &touch, 4);
+	//sendBuf(sizeof(struct packet));
+	//#pragma GCC diagnostic pop
+	
+	memcpy(&outBuf.keys, &keys, 4);
+	memcpy(&outBuf.circlePad, &circlePad, 4);
+	memcpy(&outBuf.touch, &touch, 4);
 	sendBuf(sizeof(struct packet));
-	#pragma GCC diagnostic pop
 }

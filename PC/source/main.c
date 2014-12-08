@@ -49,13 +49,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	while(1) {
 		//ZeroMemory(buffer, sizeof(struct packet));
-		memset(&buffer, 0, sizeof(packet));
+		memset(&buffer, 0, sizeof(struct packet));
 		
 		while(receiveBuffer(sizeof(struct packet)) <= 0) {
 			// Waiting
 		}
 		
-		switch(buffer[0]) {
+		switch(buffer.command) {
 			case CONNECT:
 				lastKeys = 0;
 				currentKeys = 0;
@@ -66,7 +66,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				currentTouch.x = 0;
 				currentTouch.y = 0;
 				
-				buffer[0] = CONNECT;
+				buffer.command = CONNECT;
 				printf("3DS Connected!\n");
 				
 				Sleep(50);
@@ -83,12 +83,16 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				lastKeys = currentKeys;
 				if(currentKeys & KEY_TOUCH) lastTouch = currentTouch;
 				
-				#pragma GCC diagnostic push
-				#pragma GCC diagnostic ignored "-Wstrict-aliasing"
-				memcpy(&currentKeys, &((struct packet *)buffer)->keys, 4);
-				memcpy(&circlePad, &((struct packet *)buffer)->circlePad, 4);
-				memcpy(&currentTouch, &((struct packet *)buffer)->touch, 4);
-				#pragma GCC diagnostic pop
+				//#pragma GCC diagnostic push
+				//#pragma GCC diagnostic ignored "-Wstrict-aliasing"
+				//memcpy(&currentKeys, &((struct packet *)buffer)->keys, 4);
+				//memcpy(&circlePad, &((struct packet *)buffer)->circlePad, 4);
+				//memcpy(&currentTouch, &((struct packet *)buffer)->touch, 4);
+				//#pragma GCC diagnostic pop
+				memcpy(&currentKeys, &buffer.keys, 4);
+				memcpy(&circlePad, &buffer.circlePad, 4);
+				memcpy(&currentTouch, &buffer.touch, 4);
+				
 				
 				handleKey(KEY_A, settings.A);
 				handleKey(KEY_B, settings.B);

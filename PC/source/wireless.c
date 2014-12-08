@@ -23,6 +23,24 @@ void initNetwork(void) {
 	}
 }
 
+void printIPs(void) {
+	struct hostent *phe = gethostbyname(hostName);
+    if(phe == 0) {
+       error("gethostbyname()");
+    }
+	
+	int i;
+    for(i = 0; phe->h_addr_list[i] != 0; i++) {
+        struct in_addr addr;
+        memcpy(&addr, phe->h_addr_list[i], sizeof(struct in_addr));
+        printf("%s\n", inet_ntoa(addr));
+    }
+	
+	if(i) {
+		printf("Usually you want the first one.\n");
+	}
+}
+
 void startListening(void) {
 	int nret;
 	

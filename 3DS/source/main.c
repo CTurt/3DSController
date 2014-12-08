@@ -79,6 +79,9 @@ int main(void) {
 		touchPosition touch;
 		touchRead(&touch);
 		
+		clearScreen();
+		drawString(10, 10, "Connected to %s on port %d!", settings.IPString, settings.port);
+		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
 		
 		sendKeys(kHeld, circlePad, touch);

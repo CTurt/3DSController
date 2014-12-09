@@ -37,7 +37,6 @@ struct packet {
 
 extern int sock;
 extern struct sockaddr_in sain, saout;
-//extern char outBuf[sizeof(struct packet)], rcvBuf[sizeof(struct packet)];
 extern struct packet outBuf, rcvBuf;
 
 bool openSocket(int port);

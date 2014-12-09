@@ -9,7 +9,6 @@ struct sockaddr_in client_in;
 
 int sockaddr_in_sizePtr = (int)sizeof(struct sockaddr_in);
 
-//char buffer[sizeof(struct packet)];
 struct packet buffer;
 char hostName[80];
 

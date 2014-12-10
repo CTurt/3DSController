@@ -39,6 +39,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	initNetwork();
 	
+	printf("Port: %d\n", port);
+	
 	printf("Running on: %s\n", hostName);
 	
 	printf("Your local IP(s):\n");

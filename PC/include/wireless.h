@@ -8,7 +8,6 @@
 #include <winsock.h>
 
 #define IP INADDR_ANY
-#define PORT 8888
 
 enum NET_COMMANDS {
 	CONNECT,
@@ -30,6 +29,8 @@ struct packet {
 		unsigned short y;
 	} touch;
 };
+
+extern int port;
 
 extern SOCKET listener;
 extern SOCKET client;

@@ -2,6 +2,8 @@
 #include <string.h>
 #include <windows.h>
 
+#include "wireless.h"
+
 #include "settings.h"
 
 struct settings settings;
@@ -25,9 +27,11 @@ struct settings defaultSettings = {
 };
 
 static bool getSetting(char *name, char *src, char *dest) {
-	char *start = strstr(src, name) + strlen(name);
+	char *start = strstr(src, name);
 	
 	if(start) {
+		start += strlen(name);
+		
 		char *end = start + strlen(start);
 		if(strstr(start, "\n") - 1 < end) end = strstr(start, "\n") - 1;
 		size_t size = (size_t)end - (size_t)start;
@@ -78,6 +82,10 @@ bool readSettings(void) {
 	fread(buffer, 1, len, f);
 	
 	char setting[64] = { '\0' };
+	
+	if(getSetting("Port: ", buffer, setting)) {
+		sscanf(setting, "%d", &port);
+	}
 	
 	if(getSetting("Circle Pad: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.circlePad = mouse;

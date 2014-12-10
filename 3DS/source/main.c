@@ -37,7 +37,6 @@ int main(void) {
 	gfxSwapBuffers();
 	
 	if(!readSettings()) {
-		int ipReturn;
 		while(aptMainLoop()) {
 			gspWaitForVBlank();
 			hidScanInput();
@@ -46,7 +45,7 @@ int main(void) {
 			
 			drawString(10, 10, "Failed to read settings! Input IP now!");
 			
-			ipReturn = inputIP();
+			inputIP();
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;

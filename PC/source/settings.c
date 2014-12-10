@@ -79,13 +79,15 @@ bool readSettings(void) {
 	
 	char setting[64] = { '\0' };
 	
-	getSetting("Circle Pad: ", buffer, setting);
-	if(strcmp(setting, "MOUSE") == 0) settings.circlePad = mouse;
-	else if(strcmp(setting, "JOYSTICK") == 0) settings.circlePad = joystick;
+	if(getSetting("Circle Pad: ", buffer, setting)) {
+		if(strcmp(setting, "MOUSE") == 0) settings.circlePad = mouse;
+		else if(strcmp(setting, "JOYSTICK") == 0) settings.circlePad = joystick;
+	}
 	
-	getSetting("Touch: ", buffer, setting);
-	if(strcmp(setting, "MOUSE") == 0) settings.touch = mouse;
-	else if(strcmp(setting, "JOYSTICK") == 0) settings.touch = joystick;
+	if(getSetting("Touch: ", buffer, setting)) {
+		if(strcmp(setting, "MOUSE") == 0) settings.touch = mouse;
+		else if(strcmp(setting, "JOYSTICK") == 0) settings.touch = joystick;
+	}
 	
 	if(getSetting("A: ", buffer, setting)) settings.A = getButton(setting);
 	if(getSetting("B: ", buffer, setting)) settings.B = getButton(setting);

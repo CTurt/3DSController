@@ -31,10 +31,16 @@ bool readSettings(void) {
 	if(ret) return false;
 	
 	strncpy(settings.IPString, (char *)buffer, 15);
-	buffer[15] = '\0';
+	settings.IPString[15] = '\0';
 	
-	//inet_pton(AF_INET, buffer, &(saout.sin_addr));
-	inet_pton4((const char *)buffer, (unsigned char *)&(saout.sin_addr));
+	if(strchr(settings.IPString, ':')) {
+		settings.IPString[strchr(settings.IPString, ':') - settings.IPString] = '\0';
+	}
+	
+	// Todo, get port number and use it
+	
+	//inet_pton(AF_INET, settings.IPString, &(saout.sin_addr));
+	inet_pton4(settings.IPString, (unsigned char *)&(saout.sin_addr));
 	
 	settings.port = DEFAULT_PORT;
 	

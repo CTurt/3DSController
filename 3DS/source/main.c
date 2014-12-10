@@ -73,15 +73,15 @@ int main(void) {
 		//irrstScanInput();
 		
 		u32 kHeld = hidKeysHeld();
-		circlePosition cstick;
+		circlePosition circlePad;
 		//hidCstickRead(&cstick);
-		hidCircleRead(&cstick);
+		hidCircleRead(&circlePad);
 		touchPosition touch;
 		touchRead(&touch);
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
 		
-		sendKeys(kHeld, cstick, touch);
+		sendKeys(kHeld, circlePad, touch);
 		
 		gfxFlushBuffers();
 		gfxSwapBuffers();

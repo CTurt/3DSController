@@ -37,6 +37,10 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 		vJoy = false;
 	}
 	
+	if(!readSettings()) {
+		printf("Couldn't read settings file, using default key bindings.\n");
+	}
+	
 	initNetwork();
 	
 	printf("Port: %d\n", port);
@@ -47,10 +51,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	printIPs();
 	
 	printf("\n");
-	
-	if(!readSettings()) {
-		printf("Couldn't read settings file, using default key bindings.\n");
-	}
 	
 	startListening();
 	

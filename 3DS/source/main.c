@@ -7,6 +7,7 @@
 #include "wireless.h"
 #include "settings.h"
 #include "font.h"
+#include "input.h"
 
 int main(void) {
 	srvInit();
@@ -36,12 +37,16 @@ int main(void) {
 	gfxSwapBuffers();
 	
 	if(!readSettings()) {
+		int ipReturn;
 		while(aptMainLoop()) {
 			gspWaitForVBlank();
 			hidScanInput();
 			
 			clearScreen();
-			drawString(10, 10, "Bad ini, Start and Select to exit.");
+			
+			drawString(10, 10, "Failed to read settings! Input IP now!");
+			
+			ipReturn = inputIP();
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;

@@ -1,5 +1,7 @@
-#include <3ds.h>
+#include <stdio.h>
 #include <malloc.h>
+
+#include <3ds.h>
 
 #include "wireless.h"
 
@@ -33,16 +35,18 @@ bool readSettings(void) {
 	strncpy(settings.IPString, (char *)buffer, 15);
 	settings.IPString[15] = '\0';
 	
+	settings.port = DEFAULT_PORT;
+	
 	if(strchr(settings.IPString, ':')) {
 		settings.IPString[strchr(settings.IPString, ':') - settings.IPString] = '\0';
+		
+		char portString[5] = { '\0' };
+		strncpy(portString, strchr((char *)buffer, ':') + 1, 4);
+		sscanf(portString, "%d", &settings.port);
 	}
-	
-	// Todo, get port number and use it
 	
 	//inet_pton(AF_INET, settings.IPString, &(saout.sin_addr));
 	inet_pton4(settings.IPString, (unsigned char *)&(saout.sin_addr));
-	
-	settings.port = DEFAULT_PORT;
 	
 	free(buffer);
 	

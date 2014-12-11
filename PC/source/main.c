@@ -1,6 +1,6 @@
 // 3DS Controller Server
 
-#define VERSION 0.01
+#define VERSION 0.2
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -13,7 +13,7 @@
 #include "settings.h"
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
-	printf("3DS Controller Server %.2f\n", VERSION);
+	printf("3DS Controller Server %.1f\n", VERSION);
 	
 	bool vJoy = true;
 	UINT iInterface = 1;

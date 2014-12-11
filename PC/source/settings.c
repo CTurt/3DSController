@@ -47,12 +47,19 @@ static bool getSetting(char *name, char *src, char *dest) {
 
 static int getButton(char *string) {
 	if(strcmp(string, "SPACE") == 0) return VK_SPACE;
+	else if(strcmp(string, "CLICK") == 0) return VK_LBUTTON;
+	else if(strcmp(string, "RIGHT CLICK") == 0) return VK_RBUTTON;
 	else if(strcmp(string, "ENTER") == 0) return VK_RETURN;
 	else if(strcmp(string, "BACKSPACE") == 0) return VK_BACK;
+	else if(strcmp(string, "SHIFT") == 0) return VK_SHIFT;
+	else if(strcmp(string, "TAB") == 0) return VK_TAB;
 	else if(strcmp(string, "LEFT") == 0) return VK_LEFT;
 	else if(strcmp(string, "RIGHT") == 0) return VK_RIGHT;
 	else if(strcmp(string, "UP") == 0) return VK_UP;
 	else if(strcmp(string, "DOWN") == 0) return VK_DOWN;
+	else if(strcmp(string, "PAGE UP") == 0) return VK_PRIOR;
+	else if(strcmp(string, "PAGE DOWN") == 0) return VK_NEXT;
+	else if(strcmp(string, "WINDOWS") == 0) return VK_LWIN;
 	
 	return (int)string[0];
 }

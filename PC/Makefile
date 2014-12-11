@@ -11,15 +11,15 @@ OBJS	:=	$(patsubst $(SDIR)/%.c, build/%.o, $(wildcard $(SDIR)/*.c))
 PLATFORM = $(shell uname)
 
 ifeq ($(findstring Linux,$(PLATFORM)),Linux)
-	TARGET=$(shell basename $(CURDIR))
+	TARGET=3DSController
 endif
 
 ifeq ($(findstring Darwin,$(PLATFORM)),Darwin)
-	TARGET=$(shell basename $(CURDIR))
+	TARGET=3DSController
 endif
 
 ifeq ($(findstring MINGW,$(PLATFORM)),MINGW)
-	TARGET=$(shell basename $(CURDIR)).exe
+	TARGET=3DSController.exe
 endif
 
 $(TARGET): $(ODIR) $(OBJS)

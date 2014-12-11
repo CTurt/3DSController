@@ -11,7 +11,7 @@ Firstly, if you want to be able to use the circle pad as a joystick you will nee
 
 Copy the executable with the extension that applies to your loader: `3DSController.3dsx` and `3DSController.smdh` for Ninjhax, `3DSController.3ds` for flashcards, or `3DSController.cia` for CFWs, into your 3DS's SD card or flashcard's micro SD card.
 
-Create file called `3DSController.ini` on the root of your 3DS's SD card containing the local IP address of your PC with nothing else, no new lines, etc, for example `192.168.0.4`. Refer [here](http://www.helpfulpctools.com/HowToCheckYourLocalIP.php) if you are unsure of how to find your local IP address.
+Create a file called `3DSController.ini` on the root of your 3DS's SD card containing the local IP address of your PC with nothing else, no new lines, etc, for example `192.168.0.4`. Refer [here](http://www.helpfulpctools.com/HowToCheckYourLocalIP.php) if you are unsure of how to find your local IP address.
 
 Run `3DSController.exe` on your computer. If you are prompted, make sure to allow it through your firewall.
 

@@ -41,7 +41,7 @@ int main(void) {
 			hidScanInput();
 			
 			clearScreen();
-			drawString(10, 10, "Failed! Press Start and Select to exit.");
+			drawString(10, 10, "Failed to read settings! Press Start and Select to exit.");
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;

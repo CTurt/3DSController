@@ -5,7 +5,10 @@
 struct settings {
 	char IPString[16];
 	int port;
-} settings;
+};
+
+extern struct settings settings;
+extern struct settings defaultSettings;
 
 extern Handle fileHandle;
 

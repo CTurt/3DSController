@@ -60,6 +60,7 @@ static int getButton(char *string) {
 	else if(strcmp(string, "PAGE UP") == 0) return VK_PRIOR;
 	else if(strcmp(string, "PAGE DOWN") == 0) return VK_NEXT;
 	else if(strcmp(string, "WINDOWS") == 0) return VK_LWIN;
+	else if(strcmp(string, "NONE") == 0) return 0;
 	
 	return (int)string[0];
 }

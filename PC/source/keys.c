@@ -12,6 +12,8 @@ inline unsigned int mapVirtualKey(unsigned int key) {
 }
 
 void simulateKeyNewpress(unsigned int key) {
+	if(!key) return;
+	
 	INPUT ip;
 	ip.type = INPUT_KEYBOARD;
 	ip.ki.wScan = mapVirtualKey(key);
@@ -23,6 +25,8 @@ void simulateKeyNewpress(unsigned int key) {
 }
 
 void simulateKeyRelease(unsigned int key) {
+	if(!key) return;
+	
 	INPUT ip;
 	ip.type = INPUT_KEYBOARD;
 	ip.ki.wScan = mapVirtualKey(key);

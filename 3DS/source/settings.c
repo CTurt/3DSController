@@ -7,10 +7,36 @@
 
 #include "settings.h"
 
+struct settings settings;
+
+struct settings defaultSettings = {
+	IPString: "",
+	port: DEFAULT_PORT,
+};
+
 Handle fileHandle;
 
+static bool getSetting(char *name, char *src, char *dest) {
+	char *start = strstr(src, name);
+	
+	if(start) {
+		start += strlen(name);
+		
+		char *end = start + strlen(start);
+		if(strstr(start, "\n") - 1 < end) end = strstr(start, "\n") - 1;
+		size_t size = (size_t)end - (size_t)start;
+		
+		strncpy(dest, start, size);
+		dest[size] = '\0';
+		
+		return true;
+	}
+	
+	return false;
+}
+
 bool readSettings(void) {
-	u8 *buffer = NULL;
+	char *buffer = NULL;
 	u64 size;
 	u32 bytesRead;
 	
@@ -27,26 +53,27 @@ bool readSettings(void) {
 	if(!buffer) return false;
 	
 	ret = FSFILE_Read(fileHandle, &bytesRead, 0x0, buffer, size);
-	if(ret || size!=bytesRead) return false;
+	if(ret || size != bytesRead) return false;
 	
 	ret = FSFILE_Close(fileHandle);
 	if(ret) return false;
 	
-	strncpy(settings.IPString, (char *)buffer, 15);
-	settings.IPString[15] = '\0';
+	memcpy(&settings, &defaultSettings, sizeof(struct settings));
 	
-	settings.port = DEFAULT_PORT;
+	char setting[64] = { '\0' };
 	
-	if(strchr(settings.IPString, ':')) {
-		settings.IPString[strchr(settings.IPString, ':') - settings.IPString] = '\0';
-		
-		char portString[5] = { '\0' };
-		strncpy(portString, strchr((char *)buffer, ':') + 1, 4);
-		sscanf(portString, "%d", &settings.port);
+	if(getSetting("IP: ", buffer, settings.IPString)) {
+		//inet_pton(AF_INET, settings.IPString, &(saout.sin_addr));
+		inet_pton4(settings.IPString, (unsigned char *)&(saout.sin_addr));
+	}
+	else {
+		free(buffer);
+		return false;
 	}
 	
-	//inet_pton(AF_INET, settings.IPString, &(saout.sin_addr));
-	inet_pton4(settings.IPString, (unsigned char *)&(saout.sin_addr));
+	if(getSetting("Port: ", buffer, setting)) {
+		sscanf(setting, "%d", &settings.port);
+	}
 	
 	free(buffer);
 	

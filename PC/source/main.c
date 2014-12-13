@@ -120,7 +120,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					if(settings.touch == mouse) {
 						POINT p;
 						GetCursorPos(&p);
-						SetCursorPos(p.x + (currentTouch.x - lastTouch.x), p.y + (currentTouch.y - lastTouch.y));
+						SetCursorPos(p.x + (currentTouch.x - lastTouch.x) * settings.mouseSpeed, p.y + (currentTouch.y - lastTouch.y) * settings.mouseSpeed);
 					}
 					else if(settings.touch == joystick) {
 						if(vJoy) updateJoystick((currentTouch.x) * 128, (240 - currentTouch.y) * 128);
@@ -130,7 +130,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				if(settings.circlePad == mouse) {
 					POINT p;
 					GetCursorPos(&p);
-					SetCursorPos(p.x + circlePad.x / 32, p.y - circlePad.y / 32);
+					SetCursorPos(p.x + (circlePad.x * settings.mouseSpeed) / 32, p.y - (circlePad.y * settings.mouseSpeed) / 32);
 				}
 				else if(settings.circlePad == joystick) {
 					if(vJoy) updateJoystick((circlePad.x + 128) * 128, (128 - circlePad.y) * 128);

@@ -12,6 +12,7 @@ struct settings defaultSettings = {
 	throttle: 20,
 	circlePad: joystick,
 	touch: mouse,
+	mouseSpeed: 4,
 	A: 'A',
 	B: 'B',
 	X: 'X',
@@ -108,6 +109,10 @@ bool readSettings(void) {
 	if(getSetting("Touch: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.touch = mouse;
 		else if(strcmp(setting, "JOYSTICK") == 0) settings.touch = joystick;
+	}
+	
+	if(getSetting("Mouse Speed: ", buffer, setting)) {
+		sscanf(setting, "%d", &settings.mouseSpeed);
 	}
 	
 	if(getSetting("A: ", buffer, setting)) settings.A = getButton(setting);

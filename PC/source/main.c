@@ -60,6 +60,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 		
 		while(receiveBuffer(sizeof(struct packet)) <= 0) {
 			// Waiting
+			
+			Sleep(settings.throttle);
 		}
 		
 		switch(buffer.command) {

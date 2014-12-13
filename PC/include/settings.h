@@ -8,6 +8,7 @@ enum analogue {
 };
 
 struct settings {
+	int port;
 	int throttle;
 	enum analogue circlePad;
 	enum analogue touch;

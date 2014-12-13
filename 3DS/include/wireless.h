@@ -12,7 +12,7 @@
 
 #include "inet_pton.h"
 
-#define DEFAULT_PORT 8888
+#define DEFAULT_PORT 8889
 
 enum NET_COMMANDS {
 	CONNECT,

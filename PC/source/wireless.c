@@ -1,8 +1,8 @@
 #include "general.h"
 
-#include "wireless.h"
+#include "settings.h"
 
-int port = 8888;
+#include "wireless.h"
 
 SOCKET listener;
 SOCKET client;
@@ -55,7 +55,7 @@ void startListening(void) {
 	
 	serverInfo.sin_family = AF_INET;
 	serverInfo.sin_addr.s_addr = IP;
-	serverInfo.sin_port = htons(port);
+	serverInfo.sin_port = htons(settings.port);
 	
 	u_long one = 1;
 	ioctlsocket(listener, FIONBIO, &one);

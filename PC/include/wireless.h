@@ -30,8 +30,6 @@ struct packet {
 	} touch;
 };
 
-extern int port;
-
 extern SOCKET listener;
 extern SOCKET client;
 

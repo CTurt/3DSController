@@ -9,6 +9,7 @@
 struct settings settings;
 
 struct settings defaultSettings = {
+	throttle: 20,
 	circlePad: joystick,
 	touch: mouse,
 	A: 'A',
@@ -90,6 +91,10 @@ bool readSettings(void) {
 	fread(buffer, 1, len, f);
 	
 	char setting[64] = { '\0' };
+	
+	if(getSetting("Throttle: ", buffer, setting)) {
+		sscanf(setting, "%d", &settings.throttle);
+	}
 	
 	if(getSetting("Port: ", buffer, setting)) {
 		sscanf(setting, "%d", &port);

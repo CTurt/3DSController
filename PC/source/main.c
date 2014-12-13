@@ -123,7 +123,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 						SetCursorPos(p.x + (currentTouch.x - lastTouch.x) * settings.mouseSpeed, p.y + (currentTouch.y - lastTouch.y) * settings.mouseSpeed);
 					}
 					else if(settings.touch == joystick) {
-						if(vJoy) updateJoystick((currentTouch.x) * 128, (240 - currentTouch.y) * 128);
+						if(vJoy) updateJoystick((currentTouch.x) * 128, (currentTouch.y) * 128);
 					}
 				}
 				

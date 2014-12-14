@@ -31,7 +31,7 @@ int main(void) {
 	SOC_Initialize((u32 *)memalign(0x1000, 0x100000), 0x100000);
 	
 	clearScreen();
-	drawString(10, 10, "Reading IP...");
+	drawString(10, 10, "Reading settings...");
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
@@ -41,7 +41,7 @@ int main(void) {
 			hidScanInput();
 			
 			clearScreen();
-			drawString(10, 10, "Failed to read settings! Press Start and Select to exit.");
+			drawString(10, 10, "Bad ini, Start and Select to exit.");
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;

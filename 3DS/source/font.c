@@ -119,6 +119,15 @@ void drawPixelRGB(int x, int y, u8 r, u8 g, u8 b) {
 	topLeftFB[v+1] = ((g & 0xE0) >> 5) + (r & 0xF8);
 }
 
+inline void drawBox(int x, int y, int width, int height, u8 r, u8 g, u8 b) {
+	int lx, ly;
+	for(lx = x; lx < x + width; lx++) {
+		for(ly = y; ly < y + height; ly++) {
+			drawPixelRGB(lx, ly, r, g, b);
+		}
+	}
+}
+
 void drawString(int sx, int sy, char *text, ...) {
 	char str[1024];
 	va_list args;

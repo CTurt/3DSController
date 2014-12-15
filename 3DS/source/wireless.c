@@ -1,3 +1,5 @@
+#include "keyboard.h"
+
 #include "wireless.h"
 
 int sock;
@@ -24,12 +26,13 @@ void sendBuf(int length) {
 
 void sendConnectionRequest(void) {
 	outBuf.command = CONNECT;
+	outBuf.keyboardActive = keyboardActive;
 	sendBuf(1);
 }
 
 void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) {
 	outBuf.command = KEYS;
-	
+	outBuf.keyboardActive = keyboardActive;
 	memcpy(&outBuf.keys, &keys, 4);
 	memcpy(&outBuf.circlePad, &circlePad, 4);
 	memcpy(&outBuf.touch, &touch, 4);

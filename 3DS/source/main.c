@@ -8,6 +8,7 @@
 #include "settings.h"
 #include "font.h"
 #include "input.h"
+#include "keyboard.h"
 
 int main(void) {
 	srvInit();
@@ -72,7 +73,6 @@ int main(void) {
 	gfxSwapBuffers();
 	
 	while(aptMainLoop()) {
-		gspWaitForVBlank();
 		hidScanInput();
 		//irrstScanInput();
 		
@@ -83,11 +83,24 @@ int main(void) {
 		touchPosition touch;
 		touchRead(&touch);
 		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
+		clearScreen();
+		
+		if((kHeld & KEY_L) && (kHeld & KEY_R) && (kHeld & KEY_X)) {
+			if(keyboardToggle) {
+				keyboardActive = !keyboardActive;
+				keyboardToggle = false;
+			}
+		}
+		else keyboardToggle = true;
+		
+		if(keyboardActive) drawKeyboard();
 		
 		sendKeys(kHeld, circlePad, touch);
 		
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
+		
 		gfxFlushBuffers();
+		gspWaitForVBlank();
 		gfxSwapBuffers();
 	}
 	

@@ -20,19 +20,31 @@ enum NET_COMMANDS {
 };
 
 struct packet {
-	unsigned char command;
+	struct packetHeader {
+		unsigned char command;
+		unsigned char keyboardActive;
+	};
 	
-	unsigned int keys;
-	
-	struct {
-		short x;
-		short y;
-	} circlePad;
-	
-	struct {
-		unsigned short x;
-		unsigned short y;
-	} touch;
+	union {
+		// CONNECT
+		struct connectPacket {
+		};
+		
+		// KEYS
+		struct keysPacket {
+			unsigned int keys;
+			
+			struct {
+				short x;
+				short y;
+			} circlePad;
+			
+			struct {
+				unsigned short x;
+				unsigned short y;
+			} touch;
+		};
+	};
 };
 
 extern int sock;

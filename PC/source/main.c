@@ -11,6 +11,7 @@
 #include "general.h"
 #include "joystick.h"
 #include "settings.h"
+#include "keyboard.h"
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
 	printf("3DS Controller Server %.1f\n", VERSION);
@@ -55,7 +56,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	startListening();
 	
 	while(1) {
-		//ZeroMemory(buffer, sizeof(struct packet));
 		memset(&buffer, 0, sizeof(struct packet));
 		
 		while(receiveBuffer(sizeof(struct packet)) <= 0) {
@@ -63,6 +63,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 			
 			Sleep(settings.throttle);
 		}
+		
+		keyboardActive = buffer.keyboardActive;
 		
 		switch(buffer.command) {
 			case CONNECT:
@@ -116,8 +118,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					lastTouch.y = currentTouch.y;
 				}
 				
-				if(currentKeys & KEY_TOUCH) {
-					if(settings.touch == mouse) {
+				if((currentKeys & KEY_TOUCH)) {
+					if(keyboardActive) {
+						if(newpress(KEY_TOUCH)) {
+							char letter = currentKeyboardKey();
+							//printf("%d", letter);
+							if(letter) {
+								simulateKeyNewpress(letter);
+								simulateKeyRelease(letter);
+							}
+						}
+					}
+					else if(settings.touch == mouse) {
 						POINT p;
 						GetCursorPos(&p);
 						SetCursorPos(p.x + (currentTouch.x - lastTouch.x) * settings.mouseSpeed, p.y + (currentTouch.y - lastTouch.y) * settings.mouseSpeed);

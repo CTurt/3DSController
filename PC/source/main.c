@@ -140,8 +140,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				}
 				
 				if(settings.circlePad == mouse) {
-					if(abs(circlePad.x) < 10) circlePad.x = 0;
-					if(abs(circlePad.y) < 10) circlePad.y = 0;
+					if(abs(circlePad.x) < settings.mouseSpeed * 3) circlePad.x = 0;
+					if(abs(circlePad.y) < settings.mouseSpeed * 3) circlePad.y = 0;
 					
 					POINT p;
 					GetCursorPos(&p);

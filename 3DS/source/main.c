@@ -39,19 +39,20 @@ int main(void) {
 	
 	if(!readSettings()) {
 		while(aptMainLoop()) {
-			gspWaitForVBlank();
 			hidScanInput();
 			
 			clearScreen();
 			
-			drawString(10, 10, "Failed to read settings! Input IP now!");
+			drawString(10, 10, "Bad ini! Start and Select to quit!");
 			
-			inputIP();
+			//drawString(10, 10, "Failed to read settings! Input IP now!");
+			//inputIP();
 			
 			u32 kHeld = hidKeysHeld();
 			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;
 			
 			gfxFlushBuffers();
+			gspWaitForVBlank();
 			gfxSwapBuffers();
 		}
 	}

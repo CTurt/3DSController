@@ -6,6 +6,8 @@
 
 #include "keyboard.h"
 
+const char keyboardChars[60] = "!1234567890\x08QWERTYUIOP\13\13ASDFGHJKL-\13\13ZXCVBNM,.?\13\13\0\0\0     \0\0\0\0";
+
 unsigned char keyboardActive = false;
 unsigned char keyboardToggle = true;
 

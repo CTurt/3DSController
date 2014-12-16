@@ -4,7 +4,7 @@
 
 #include <3ds.h>
 
-#include "font.h"
+#include "drawing.h"
 
 static const char fonts[] = { //Fonte 8x8 1BPP
 	0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 //tile:0

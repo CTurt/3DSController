@@ -110,25 +110,25 @@ inline void clearScreen(void) {
 	memset(frame, 0, 320 * 240 * 3);
 }
 
-void drawPixelRGB(int x, int y, u8 r, u8 g, u8 b) {
+void drawPixelRGBFramebuffer(u8 *fb, int x, int y, u8 r, u8 g, u8 b) {
 	y = 240 - y;
 	x = x;
 	u32 v = (y + x * 240) * 3;
-	u8 *topLeftFB = gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
+	u8 *topLeftFB = fb ? fb : gfxGetFramebuffer(GFX_BOTTOM, GFX_LEFT, NULL, NULL);
 	topLeftFB[v] = (b >> 3) + ((g & 0x1C) << 3);
 	topLeftFB[v+1] = ((g & 0xE0) >> 5) + (r & 0xF8);
 }
 
-inline void drawBox(int x, int y, int width, int height, u8 r, u8 g, u8 b) {
+inline void drawBoxFramebuffer(u8 *fb, int x, int y, int width, int height, u8 r, u8 g, u8 b) {
 	int lx, ly;
 	for(lx = x; lx < x + width; lx++) {
 		for(ly = y; ly < y + height; ly++) {
-			drawPixelRGB(lx, ly, r, g, b);
+			drawPixelRGBFramebuffer(fb, lx, ly, r, g, b);
 		}
 	}
 }
 
-void drawString(int sx, int sy, char *text, ...) {
+void drawStringFramebuffer(u8 *fb, int sx, int sy, char *text, ...) {
 	char str[1024];
 	va_list args;
 	va_start(args, text);
@@ -146,8 +146,8 @@ void drawString(int sx, int sy, char *text, ...) {
 			int mult = 0x80;
 			for(x = 0; x < 8; x++) {
 				if((currbyte & mult) == mult) {
-					drawPixelRGB(sx + x, sy + y, 0xFF, 0xFF, 0xFF);
-					drawPixelRGB(sx + x, sy + y + 1, 0, 0, 0); //Sombra
+					drawPixelRGBFramebuffer(fb, sx + x, sy + y, 0xFF, 0xFF, 0xFF);
+					drawPixelRGBFramebuffer(fb, sx + x, sy + y + 1, 0, 0, 0); //Sombra
 				}
 				mult /= 2;
 			}

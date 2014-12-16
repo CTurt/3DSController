@@ -2,8 +2,6 @@
 #include <math.h>
 #include <string.h>
 
-#include "keyboard_bin.h"
-
 #include "font.h"
 
 #include "keyboard.h"

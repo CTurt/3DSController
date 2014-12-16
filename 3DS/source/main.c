@@ -18,6 +18,8 @@ int main(void) {
 	gfxInit();
 	gfxSet3D(false);
 	
+	preRenderKeyboard();
+	
 	clearScreen();
 	drawString(10, 10, "Initing FS...");
 	gfxFlushBuffers();
@@ -94,7 +96,9 @@ int main(void) {
 		}
 		else keyboardToggle = true;
 		
-		if(keyboardActive) drawKeyboard();
+		if(keyboardActive) {
+			drawKeyboard();
+		}
 		
 		sendKeys(kHeld, circlePad, touch);
 		

@@ -1,5 +1,7 @@
 #pragma once
 
+extern const char keyboardChars[60];
+
 extern unsigned char keyboardActive;
 extern unsigned char keyboardToggle;
 

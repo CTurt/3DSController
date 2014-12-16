@@ -98,6 +98,29 @@ int main(void) {
 		
 		if(keyboardActive) {
 			drawKeyboard();
+			
+			if(touch.px >= 1 && touch.px <= 312 && touch.py >= 78 && touch.py <= 208) {
+				int x = (int)((float)touch.px * 12.0f / 320.0f);
+				int y = (int)((float)(touch.py - 78) * 12.0f / 320.0f);
+				int width = 24;
+				int height = 24;
+				
+				if(keyboardChars[x + y * 12] == ' ') {
+					while(keyboardChars[(x - 1) + y * 12] == ' ') x--;
+					
+					width = (int)(5.0f * 320.0f / 12.0f) - 1;
+				}
+				
+				else if(keyboardChars[x + y * 12] == '\13') {
+					while(keyboardChars[(x - 1) + y * 12] == '\13') x--;
+					while(keyboardChars[x + (y - 1) * 12] == '\13') y--;
+					
+					width = (int)(2.0f * 320.0f / 12.0f) - 1;
+					height = (int)(3.0f * 320.0f / 12.0f) - 1;
+				}
+				
+				if(keyboardChars[x + y * 12]) drawBox((int)((float)x * 320.0f / 12.0f) + 1, (int)(78.0f + (float)y * 320.0f / 12.0f) + 1, width, height, 31, 31, 0);
+			}
 		}
 		
 		sendKeys(kHeld, circlePad, touch);

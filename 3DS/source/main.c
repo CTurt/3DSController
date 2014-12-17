@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <malloc.h>
+#include <setjmp.h>
 
 #include <3ds.h>
 
@@ -10,13 +11,35 @@
 #include "input.h"
 #include "keyboard.h"
 
-int main(void) {
+static jmp_buf exitJmp;
+
+void hang(char *message) {
+	while(aptMainLoop()) {
+		hidScanInput();
+		
+		clearScreen();
+		drawString(10, 10, "%s", message);
+		drawString(10, 20, "Start and Select to exit");
+		
+		u32 kHeld = hidKeysHeld();
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
+		
+		gfxFlushBuffers();
+		gspWaitForVBlank();
+		gfxSwapBuffers();
+	}
+}
+
+int main(void) {	
 	srvInit();
 	aptInit();
 	hidInit(NULL);
 	//irrstInit(NULL);
+	acInit();
 	gfxInit();
 	gfxSet3D(false);
+	
+	if(setjmp(exitJmp)) goto exit;
 	
 	preRenderKeyboard();
 	
@@ -34,29 +57,19 @@ int main(void) {
 	
 	SOC_Initialize((u32 *)memalign(0x1000, 0x100000), 0x100000);
 	
+	u32 wifiStatus = 0;
+	ACU_GetWifiStatus(NULL, &wifiStatus);
+	if(!wifiStatus) {
+		hang("No WiFi! Is your wireless slider on?");
+	}
+	
 	clearScreen();
 	drawString(10, 10, "Reading settings...");
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
 	if(!readSettings()) {
-		while(aptMainLoop()) {
-			hidScanInput();
-			
-			clearScreen();
-			
-			drawString(10, 10, "Bad ini! Start and Select to quit!");
-			
-			//drawString(10, 10, "Failed to read settings! Input IP now!");
-			//inputIP();
-			
-			u32 kHeld = hidKeysHeld();
-			if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) goto exit;
-			
-			gfxFlushBuffers();
-			gspWaitForVBlank();
-			gfxSwapBuffers();
-		}
+		hang("Could not read 3DSController.ini!");
 	}
 	
 	clearScreen();
@@ -125,7 +138,7 @@ int main(void) {
 		
 		sendKeys(kHeld, circlePad, touch);
 		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) break;
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
 		
 		gfxFlushBuffers();
 		gspWaitForVBlank();
@@ -140,6 +153,7 @@ int main(void) {
 	fsExit();
 	
 	gfxExit();
+	acExit();
 	//irrstExit();
 	hidExit();
 	aptExit();

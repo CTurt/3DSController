@@ -11,9 +11,7 @@ Firstly, if you want to be able to use the circle pad as a joystick you will nee
 
 Extract the archive and copy the executable in the `3DS` directory with the extension that applies to your loader: `3DSController.3dsx` and `3DSController.smdh` for Ninjhax, `3DSController.3ds` for flashcards, or `3DSController.cia` for CFWs, into your 3DS's SD card or flashcard's micro SD card.
 
-If using version 0.2, create a file called `3DSController.ini` on the root of your 3DS's SD card containing the local IP address of your PC with nothing else, no new lines, etc, for example `192.168.0.4`.
-
-If using version 0.3 and onwards, copy the file `3DS/3DSController.ini` to the root of your 3DS's SD card, and change the line that says `IP: 192.168.0.4` to match your computer's local IP.
+Copy the file `3DS/3DSController.ini` to the root of your 3DS's SD card, and change the line that says `IP: 192.168.0.4` to match your computer's local IP.
 
 If you are unsure of your local IP address, run `3DSController.exe` and it will tell you.
 
@@ -28,9 +26,7 @@ Otherwise, you should just see a black screen, this is a good sign. To see if it
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Configuration
-In version 0.2 to change the port, add `:` followed by the desired port to your 3DS's `3DSController.ini`, for example it should contain, `192.168.0.4:8889` to use port 8889. On the PC's `3DSController.ini`, find the line that says `Port: 8888` and change it to match the port you chose for the 3DS.
-
-In version 0.3 and onwards, find the line `Port: 8888` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
+Find the line `Port: 8888` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.
 

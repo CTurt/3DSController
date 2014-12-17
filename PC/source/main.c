@@ -1,6 +1,6 @@
 // 3DS Controller Server
 
-#define VERSION 0.3
+#define VERSION 0.4
 
 #include <stdio.h>
 #include <stdbool.h>

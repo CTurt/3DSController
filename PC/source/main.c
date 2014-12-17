@@ -16,6 +16,12 @@
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
 	printf("3DS Controller Server %.1f\n", VERSION);
 	
+	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN);
+	
+	double widthMultiplier = screenWidth / 320.0;
+	double heightMultiplier = screenHeight / 240.0;
+	
 	bool vJoy = true;
 	UINT iInterface = 1;
 	
@@ -129,9 +135,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 						}
 					}
 					else if(settings.touch == mouse) {
-						POINT p;
-						GetCursorPos(&p);
-						SetCursorPos(p.x + (currentTouch.x - lastTouch.x) * settings.mouseSpeed, p.y + (currentTouch.y - lastTouch.y) * settings.mouseSpeed);
+						if(settings.mouseSpeed) {
+							POINT p;
+							GetCursorPos(&p);
+							SetCursorPos(p.x + (currentTouch.x - lastTouch.x) * settings.mouseSpeed, p.y + (currentTouch.y - lastTouch.y) * settings.mouseSpeed);
+						}
+						else {
+							SetCursorPos((int)((double)currentTouch.x * widthMultiplier), (int)((double)currentTouch.y * heightMultiplier));
+						}
 					}
 					else if(settings.touch == joystick) {
 						if(vJoy) updateJoystick((currentTouch.x) * 128, (currentTouch.y) * 128);

@@ -116,7 +116,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_L, settings.L);
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
-				handleKey(KEY_TOUCH, settings.Tap);
+				
+				//handleKey(KEY_TOUCH, settings.Tap);
+				if(release(KEY_TOUCH)) {
+					simulateKeyNewpress(settings.Tap);
+					simulateKeyRelease(settings.Tap);
+				}
+				
 				//handleKey(KEY_LID, 'I');
 				
 				if(newpress(KEY_TOUCH)) {

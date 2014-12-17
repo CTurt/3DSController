@@ -23,6 +23,8 @@ If it wasn't able to read the IP from `3DSController.ini`, it will notify you an
 
 Otherwise, you should just see a black screen, this is a good sign. To see if it works, open Notepad and press some buttons on the 3DS, they should show up. You can also test if the joystick works by going to Configure USB Game Controllers in Control Panel, it shows up as vJoy.
 
+If using version 0.4 or above you can press L, R and X to bring up the keyboard. Press L, R and X again to close it.
+
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Configuration

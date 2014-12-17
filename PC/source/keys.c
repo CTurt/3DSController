@@ -14,6 +14,8 @@ inline unsigned int mapVirtualKey(unsigned int key) {
 void simulateKeyNewpress(unsigned int key) {
 	if(!key) return;
 	
+	unsigned char unshift = 0;
+	
 	INPUT ip = { 0 };
 	
 	if(key == VK_LBUTTON || key == VK_RBUTTON) {
@@ -21,6 +23,21 @@ void simulateKeyNewpress(unsigned int key) {
 		ip.mi.dwFlags = key == VK_LBUTTON ? MOUSEEVENTF_LEFTDOWN : MOUSEEVENTF_RIGHTDOWN;
 	}
 	else {
+		if(key == '!') {
+			key = '1';
+			simulateKeyNewpress(VK_SHIFT);
+			unshift = 1;
+		}
+		else if(key == '?') {
+			key = VK_DIVIDE;
+			simulateKeyNewpress(VK_SHIFT);
+			unshift = 1;
+		}
+		
+		else if(key == '-') key = VK_OEM_MINUS;
+		else if(key == ',') key = VK_OEM_COMMA;
+		else if(key == '\13') key = VK_RETURN;
+		
 		ip.type = INPUT_KEYBOARD;
 		ip.ki.wScan = mapVirtualKey(key);
 		ip.ki.time = 0;
@@ -30,6 +47,8 @@ void simulateKeyNewpress(unsigned int key) {
 	}
 	
 	SendInput(1, &ip, sizeof(INPUT));
+	
+	if(unshift) simulateKeyRelease(VK_SHIFT);
 }
 
 void simulateKeyRelease(unsigned int key) {

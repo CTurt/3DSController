@@ -122,7 +122,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					if(keyboardActive) {
 						if(newpress(KEY_TOUCH)) {
 							char letter = currentKeyboardKey();
-							//printf("%d", letter);
 							if(letter) {
 								simulateKeyNewpress(letter);
 								simulateKeyRelease(letter);

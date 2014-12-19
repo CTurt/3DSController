@@ -15,9 +15,10 @@ BOOL updateJoystick(int x, int y) {
 	
 	iReport.wAxisX = x;
 	iReport.wAxisY = y;
-	iReport.wAxisZ = 128 * 128;
-	iReport.wAxisZRot = 0;
-	iReport.wAxisXRot = 0;
+	iReport.wAxisZ = JOY_MIDDLE;
+	iReport.wAxisXRot = JOY_MIDDLE;
+	iReport.wAxisYRot = JOY_MIDDLE;
+	iReport.wAxisZRot = JOY_MIDDLE;
 	
 	iReport.lButtons = 0;
 	

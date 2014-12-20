@@ -12,6 +12,7 @@
 #include "joystick.h"
 #include "settings.h"
 #include "keyboard.h"
+#include "screenshot.h"
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
 	printf("3DS Controller Server %.1f\n", VERSION);

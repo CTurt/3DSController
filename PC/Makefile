@@ -4,7 +4,7 @@ SDIR	:=	source
 IDIR	:=	include
 LDIR	:=	lib
 CFLAGS	:=	-I$(IDIR) -fms-extensions -O2 -Wall
-LFLAGS	:=	-L$(LDIR) -lvJoyInterface -lws2_32
+LFLAGS	:=	-L$(LDIR) -lvJoyInterface -lws2_32 -lGdi32
 CFILES	:=	$(wildcard $(SDIR)/*.c)
 OBJS	:=	$(patsubst $(SDIR)/%.c, build/%.o, $(wildcard $(SDIR)/*.c))
 

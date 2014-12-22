@@ -23,6 +23,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	double widthMultiplier = screenWidth / 320.0;
 	double heightMultiplier = screenHeight / 240.0;
 	
+	initScreenshot();
+	
 	bool vJoy = true;
 	UINT iInterface = 1;
 	
@@ -171,6 +173,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				break;
 		}
 	}
+	
+	freeScreenshot();
 	
 	error("accept()");
 	return 0;

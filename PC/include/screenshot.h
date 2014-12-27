@@ -2,9 +2,15 @@
 
 #include <windows.h>
 
-extern HDC hDc;
-extern HBITMAP hBmp;
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-void initScreenshot(void);
-void takeScreenshot(void);
-void freeScreenshot(void);
+#define SCREENSHOT_NAME "tempScreen.jpg"
+#define SCREENSHOT_NAMEL L"tempScreen.jpg"
+
+void screenshot(const WCHAR *filename, BOOL fullscreen, int windowedX, int windowedY, ULONG quality);
+
+#ifdef __cplusplus
+}
+#endif

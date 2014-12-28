@@ -12,23 +12,29 @@
 
 #include "inet_pton.h"
 
+#define SCREENSHOT_CHUNK 4000
+
 #define DEFAULT_PORT 8889
 
 enum NET_COMMANDS {
 	CONNECT,
 	KEYS,
+	SCREENSHOT,
 };
 
+// It is deliberately set up to have an anonymous struct as well as a named struct for convenience, not a mistake!
 struct packet {
 	struct packetHeader {
 		unsigned char command;
 		unsigned char keyboardActive;
 	};
+	struct packetHeader packetHeader;
 	
 	union {
 		// CONNECT
 		struct connectPacket {
 		};
+		struct connectPacket connectPacket;
 		
 		// KEYS
 		struct keysPacket {
@@ -44,6 +50,14 @@ struct packet {
 				unsigned short y;
 			} touch;
 		};
+		struct keysPacket keysPacket;
+		
+		// SCREENSHOT
+		struct screenshotPacket {
+			unsigned short offset;
+			unsigned char data[SCREENSHOT_CHUNK];
+		};
+		struct screenshotPacket screenshotPacket;
 	};
 };
 
@@ -51,7 +65,10 @@ extern int sock;
 extern struct sockaddr_in sain, saout;
 extern struct packet outBuf, rcvBuf;
 
+extern socklen_t sockaddr_in_sizePtr;
+
 bool openSocket(int port);
 void sendBuf(int length);
+int receiveBuffer(int length);
 void sendConnectionRequest(void);
 void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch);

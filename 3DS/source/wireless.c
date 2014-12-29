@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 #include "keyboard.h"
 
 #include "wireless.h"
@@ -5,6 +7,8 @@
 int sock;
 struct sockaddr_in sain, saout;
 struct packet outBuf, rcvBuf;
+
+socklen_t sockaddr_in_sizePtr = (int)sizeof(struct sockaddr_in);
 
 bool openSocket(int port) {
 	sock = socket(AF_INET, SOCK_DGRAM, 0);
@@ -24,10 +28,14 @@ void sendBuf(int length) {
 	sendto(sock, (char *)&outBuf, length, 0, (struct sockaddr *)&saout, sizeof(saout));
 }
 
+int receiveBuffer(int length) {
+	return recvfrom(sock, (char *)&rcvBuf, length, 0, (struct sockaddr *)&sain, &sockaddr_in_sizePtr);
+}
+
 void sendConnectionRequest(void) {
 	outBuf.command = CONNECT;
 	outBuf.keyboardActive = keyboardActive;
-	sendBuf(1);
+	sendBuf(offsetof(struct packet, connectPacket) + sizeof(struct connectPacket));
 }
 
 void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) {
@@ -36,5 +44,5 @@ void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) 
 	memcpy(&outBuf.keys, &keys, 4);
 	memcpy(&outBuf.circlePad, &circlePad, 4);
 	memcpy(&outBuf.touch, &touch, 4);
-	sendBuf(sizeof(struct packet));
+	sendBuf(offsetof(struct packet, keysPacket) + sizeof(struct keysPacket));
 }

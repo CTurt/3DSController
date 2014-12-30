@@ -1,6 +1,9 @@
+#include <stddef.h>
+
 #include "general.h"
 
 #include "settings.h"
+#include "screenshot.h"
 
 #include "wireless.h"
 
@@ -75,4 +78,13 @@ void sendBuffer(int length) {
 
 int receiveBuffer(int length) {
 	return recvfrom(listener, (char *)&buffer, length, 0, (struct sockaddr *)&client_in, &sockaddr_in_sizePtr);
+}
+
+void sendScreenshot(void) {
+	buffer.command = SCREENSHOT;
+	
+	//for(buffer.offset = 0; buffer.offset < screenshotSize; buffer.offset += SCREENSHOT_CHUNK) {
+	//	memcpy(buffer.data, screenshotData + buffer.offset, SCREENSHOT_CHUNK);
+	//	sendBuffer(SCREENSHOT_CHUNK);
+	//}
 }

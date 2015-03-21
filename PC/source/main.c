@@ -23,10 +23,18 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	double widthMultiplier = screenWidth / 320.0;
 	double heightMultiplier = screenHeight / 240.0;
 	
-	screenshot(SCREENSHOT_NAMEL, TRUE, 0, 0, 18);
+	//screenshot(SCREENSHOT_NAMEL, TRUE, 0, 0, 18);
 	
 	bool vJoy = true;
 	UINT iInterface = 1;
+	
+	iReport.wAxisZ = JOY_MIDDLE;
+	iReport.wAxisXRot = JOY_MIDDLE;
+	iReport.wAxisYRot = JOY_MIDDLE;
+	iReport.wAxisZRot = JOY_MIDDLE;
+	iReport.wSlider = JOY_MIDDLE;
+	iReport.lButtons = 0;
+	iReport.bHats = -1;
 	
 	if(vJoy && !vJoyEnabled()) {
 		printf("vJoy failed (1)! Buttons will still work, but joy stick won't work.\n");
@@ -42,8 +50,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	ContPovNumber = GetVJDContPovNumber(iInterface);
 	//int DiscPovNumber = GetVJDDiscPovNumber(iInterface);
 	
-	if(vJoy && !updateJoystick(128 * 128, 128 * 128)) {
-		printf("vJoy failed (3)! Buttons will still work, but joy stick won't work.\n");
+	if(vJoy && !updateJoystick()) {
+		printf("vJoy failed (3)! Buttons will still work, but joystick won't work.\n");
 		vJoy = false;
 	}
 	
@@ -148,7 +156,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 						}
 					}
 					else if(settings.touch == joystick) {
-						if(vJoy) updateJoystick((currentTouch.x) * 128, (currentTouch.y) * 128);
+						joyX = (currentTouch.x) * 128;
+						joyY = (currentTouch.y) * 128;
 					}
 					else {
 						handleKey(KEY_TOUCH, settings.Tap);
@@ -164,11 +173,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					SetCursorPos(p.x + (circlePad.x * settings.mouseSpeed) / 32, p.y - (circlePad.y * settings.mouseSpeed) / 32);
 				}
 				else if(settings.circlePad == joystick) {
-					if(vJoy) updateJoystick((circlePad.x + 128) * 128, (128 - circlePad.y) * 128);
+					joyX = (circlePad.x + 128) * 128;
+					joyY = (128 - circlePad.y) * 128;
 				}
 				
 				break;
 		}
+		
+		if(vJoy) updateJoystick();
 		
 		//sendScreenshot();
 	}

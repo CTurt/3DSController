@@ -30,14 +30,18 @@ void hang(char *message) {
 	}
 }
 
-int main(void) {	
-	srvInit();
+int main(void) {
+	/*srvInit();
 	aptInit();
 	hidInit(NULL);
 	//irrstInit(NULL);
 	acInit();
 	gfxInit();
-	gfxSet3D(false);
+	gfxSet3D(false);*/
+	
+	gfxInitDefault();
+	
+	consoleInit(GFX_BOTTOM, NULL);
 	
 	if(setjmp(exitJmp)) goto exit;
 	
@@ -138,6 +142,16 @@ int main(void) {
 		
 		sendKeys(kHeld, circlePad, touch);
 		
+		receiveBuffer(sizeof(struct packet));
+		
+		/*u8 *frame = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
+		
+		switch(rcvBuf.command) {
+			case SCREENSHOT:
+				//drawStringFramebuffer(frame, 10, 10, "R");
+				break;
+		}*/
+		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
 		
 		gfxFlushBuffers();
@@ -153,11 +167,12 @@ int main(void) {
 	fsExit();
 	
 	gfxExit();
-	acExit();
+	
+	/*acExit();
 	//irrstExit();
 	hidExit();
 	aptExit();
-	srvExit();
+	srvExit();*/
 	
 	return 0;
 }

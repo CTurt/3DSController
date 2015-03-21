@@ -24,40 +24,48 @@ enum NET_COMMANDS {
 
 // It is deliberately set up to have an anonymous struct as well as a named struct for convenience, not a mistake!
 struct packet {
-	struct packetHeader {
-		unsigned char command;
-		unsigned char keyboardActive;
+	union {
+		struct packetHeader {
+			unsigned char command;
+			unsigned char keyboardActive;
+		};
+		struct packetHeader packetHeader;
 	};
-	struct packetHeader packetHeader;
 	
 	union {
 		// CONNECT
-		struct connectPacket {
+		union {
+			struct connectPacket {
+			};
+			struct connectPacket connectPacket;
 		};
-		struct connectPacket connectPacket;
 		
 		// KEYS
-		struct keysPacket {
-			unsigned int keys;
-			
-			struct {
-				short x;
-				short y;
-			} circlePad;
-			
-			struct {
-				unsigned short x;
-				unsigned short y;
-			} touch;
+		union {
+			struct keysPacket {
+				unsigned int keys;
+				
+				struct {
+					short x;
+					short y;
+				} circlePad;
+				
+				struct {
+					unsigned short x;
+					unsigned short y;
+				} touch;
+			};
+			struct keysPacket keysPacket;
 		};
-		struct keysPacket keysPacket;
 		
 		// SCREENSHOT
-		struct screenshotPacket {
-			unsigned short offset;
-			unsigned char data[SCREENSHOT_CHUNK];
+		union {
+			struct screenshotPacket {
+				unsigned short offset;
+				unsigned char data[SCREENSHOT_CHUNK];
+			};
+			struct screenshotPacket screenshotPacket;
 		};
-		struct screenshotPacket screenshotPacket;
 	};
 };
 

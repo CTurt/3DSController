@@ -1,13 +1,12 @@
 3DSController ![](/3DS/cxi/icon48x48.png?raw=true)
 ===
-
 A 3DS homebrew application which allows you to use your 3DS as a wireless controller for Windows.
 
 ### Download
 The latest release will always be downloadable from [here](https://github.com/CTurt/3DSController/releases/).
 
 ### Setup and Usage
-Firstly, if you want to be able to use the circle pad as a joystick you will need to install [vJoy](http://vjoystick.sourceforge.net/site/index.php/download-a-install). However, if you just want to use the buttons, this is not necessary.
+Firstly, if you want to be able to use the circle pad as a joystick you will need to install [vJoy (version 2.0.4 is preferable)](http://sourceforge.net/projects/vjoystick/files/Beta%202.x/2.0.4%20220914/vJoy_204_I220914.exe/download). However, if you just want to use the buttons, this is not necessary.
 
 Extract the archive and copy the executable in the `3DS` directory with the extension that applies to your loader: `3DSController.3dsx` and `3DSController.smdh` for Ninjhax, `3DSController.3ds` for flashcards, or `3DSController.cia` for CFWs, into your 3DS's SD card or flashcard's micro SD card.
 
@@ -33,8 +32,9 @@ Find the line `Port: 8888` and change it to your desired port, do this for both 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.
 
 ### Troubleshooting
+- Make sure that you are using the 3DS and PC application from the same release,
 - Make sure your 3DS has internet access (turn on the switch on the side of the 3DS so that an orange light shows) and is on the same network as your PC,
 - Make sure that the `3DSController.ini` is in the root of your 3DS's SD card (not flashcard micro SD),
 - Make sure that the `3DSController.ini` has the local IP of your computer, not your public IP,
 - Make sure your firewall isn't blocking the application,
-- Try using a different port,
+- Try using a different port (change the port for both the 3DS and PC's .ini file),

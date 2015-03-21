@@ -71,7 +71,7 @@ void screenshot(const WCHAR *filename, BOOL fullscreen, int windowedX, int windo
 		SelectObject(memdc, hOldBitmap);
 		DeleteObject(memdc);
 		DeleteObject(membit);
-		::ReleaseDC(0,scrdc);
+		::ReleaseDC(0, scrdc);
 	}
 	
 	GdiplusShutdown(gdiplusToken);

@@ -31,17 +31,10 @@ void hang(char *message) {
 }
 
 int main(void) {
-	/*srvInit();
-	aptInit();
-	hidInit(NULL);
-	//irrstInit(NULL);
 	acInit();
-	gfxInit();
-	gfxSet3D(false);*/
-	
 	gfxInitDefault();
 	
-	consoleInit(GFX_BOTTOM, NULL);
+	//consoleInit(GFX_BOTTOM, NULL);
 	
 	if(setjmp(exitJmp)) goto exit;
 	
@@ -167,12 +160,7 @@ int main(void) {
 	fsExit();
 	
 	gfxExit();
-	
-	/*acExit();
-	//irrstExit();
-	hidExit();
-	aptExit();
-	srvExit();*/
+	acExit();
 	
 	return 0;
 }

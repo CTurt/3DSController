@@ -120,12 +120,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
 				
-				//handleKey(KEY_TOUCH, settings.Tap);
-				if(release(KEY_TOUCH)) {
-					simulateKeyNewpress(settings.Tap);
-					simulateKeyRelease(settings.Tap);
-				}
-				
 				//handleKey(KEY_LID, 'I');
 				
 				if(newpress(KEY_TOUCH)) {
@@ -156,6 +150,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					else if(settings.touch == joystick) {
 						if(vJoy) updateJoystick((currentTouch.x) * 128, (currentTouch.y) * 128);
 					}
+					else {
+						handleKey(KEY_TOUCH, settings.Tap);
+					}
 				}
 				
 				if(settings.circlePad == mouse) {
@@ -173,7 +170,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				break;
 		}
 		
-		sendScreenshot();
+		//sendScreenshot();
 	}
 	
 	error("accept()");

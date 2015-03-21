@@ -2,6 +2,7 @@
 #include <string.h>
 #include <windows.h>
 
+#include "keys.h"
 #include "wireless.h"
 
 #include "settings.h"
@@ -14,19 +15,19 @@ struct settings defaultSettings = {
 	circlePad: joystick,
 	touch: mouse,
 	mouseSpeed: 4,
-	A: 'A',
-	B: 'B',
-	X: 'X',
-	Y: 'Y',
-	L: 'L',
-	R: 'R',
-	Left: VK_LEFT,
-	Right: VK_RIGHT,
-	Up: VK_UP,
-	Down: VK_DOWN,
-	Start: VK_RETURN,
-	Select: VK_BACK,
-	Tap: 'T',
+	A: { 1, {'A'} },
+	B: { 1, {'B'} },
+	X: { 1, {'X'} },
+	Y: { 1, {'Y'} },
+	L: { 1, {'L'} },
+	R: { 1, {'R'} },
+	Left: { 1, {VK_LEFT} },
+	Right: { 1, {VK_RIGHT} },
+	Up: { 1, {VK_UP} },
+	Down: { 1, {VK_DOWN} },
+	Start: { 1, {VK_RETURN} },
+	Select: { 1, {VK_BACK} },
+	Tap: { 1, {'T'} },
 };
 
 static bool getSetting(char *name, char *src, char *dest) {
@@ -48,24 +49,37 @@ static bool getSetting(char *name, char *src, char *dest) {
 	return false;
 }
 
-static int getButton(char *string) {
-	if(strcmp(string, "SPACE") == 0) return VK_SPACE;
-	else if(strcmp(string, "CLICK") == 0) return VK_LBUTTON;
-	else if(strcmp(string, "RIGHT CLICK") == 0) return VK_RBUTTON;
-	else if(strcmp(string, "ENTER") == 0) return VK_RETURN;
-	else if(strcmp(string, "BACKSPACE") == 0) return VK_BACK;
-	else if(strcmp(string, "SHIFT") == 0) return VK_SHIFT;
-	else if(strcmp(string, "TAB") == 0) return VK_TAB;
-	else if(strcmp(string, "LEFT") == 0) return VK_LEFT;
-	else if(strcmp(string, "RIGHT") == 0) return VK_RIGHT;
-	else if(strcmp(string, "UP") == 0) return VK_UP;
-	else if(strcmp(string, "DOWN") == 0) return VK_DOWN;
-	else if(strcmp(string, "PAGE UP") == 0) return VK_PRIOR;
-	else if(strcmp(string, "PAGE DOWN") == 0) return VK_NEXT;
-	else if(strcmp(string, "WINDOWS") == 0) return VK_LWIN;
-	else if(strcmp(string, "NONE") == 0) return 0;
+static struct keyMapping getButton(char *string) {
+	struct keyMapping k = { 1, {0} };
 	
-	return (int)string[0];
+	if(strcmp(string, "SPACE") == 0) k.virtualKey = VK_SPACE;
+	else if(strcmp(string, "CLICK") == 0) k.virtualKey = VK_LBUTTON;
+	else if(strcmp(string, "RIGHT CLICK") == 0) k.virtualKey = VK_RBUTTON;
+	else if(strcmp(string, "ENTER") == 0) k.virtualKey = VK_RETURN;
+	else if(strcmp(string, "BACKSPACE") == 0) k.virtualKey = VK_BACK;
+	else if(strcmp(string, "SHIFT") == 0) k.virtualKey = VK_SHIFT;
+	else if(strcmp(string, "TAB") == 0) k.virtualKey = VK_TAB;
+	else if(strcmp(string, "LEFT") == 0) k.virtualKey = VK_LEFT;
+	else if(strcmp(string, "RIGHT") == 0) k.virtualKey = VK_RIGHT;
+	else if(strcmp(string, "UP") == 0) k.virtualKey = VK_UP;
+	else if(strcmp(string, "DOWN") == 0) k.virtualKey = VK_DOWN;
+	else if(strcmp(string, "PAGE UP") == 0) k.virtualKey = VK_PRIOR;
+	else if(strcmp(string, "PAGE DOWN") == 0) k.virtualKey = VK_NEXT;
+	else if(strcmp(string, "WINDOWS") == 0) k.virtualKey = VK_LWIN;
+	else if(strcmp(string, "NONE") == 0) k.virtualKey = 0;
+	
+	else if(strcmp(string, "JOY1") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 0; }
+	else if(strcmp(string, "JOY2") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 1; }
+	else if(strcmp(string, "JOY3") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 2; }
+	else if(strcmp(string, "JOY4") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 3; }
+	else if(strcmp(string, "JOY5") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 4; }
+	else if(strcmp(string, "JOY6") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 5; }
+	else if(strcmp(string, "JOY7") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 6; }
+	else if(strcmp(string, "JOY8") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 7; }
+	
+	else k.virtualKey = (int)string[0];
+	
+	return k;
 }
 
 bool readSettings(void) {

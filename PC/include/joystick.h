@@ -9,10 +9,16 @@
 #include "public.h"
 #include "vjoyinterface.h"
 
+#define joyX iReport.wAxisX
+#define joyY iReport.wAxisY
+#define joyButtons iReport.lButtons
+
 #define JOY_MIDDLE (128 * 128)
 
 extern int ContPovNumber;
 extern UINT iInterface;
-extern BOOL ContinuousPOV;
+//extern BOOL ContinuousPOV;
 
-BOOL updateJoystick(int x, int y);
+extern JOYSTICK_POSITION iReport;
+
+BOOL updateJoystick(void);

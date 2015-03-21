@@ -5,32 +5,14 @@
 
 int ContPovNumber;
 UINT iInterface = 1;
-BOOL ContinuousPOV = FALSE;
+//BOOL ContinuousPOV = FALSE;
 
-BOOL updateJoystick(int x, int y) {
+JOYSTICK_POSITION iReport;
+
+BOOL updateJoystick(void) {
 	BYTE id = (BYTE)iInterface;
-	JOYSTICK_POSITION iReport;
 	
 	iReport.bDevice = id;
-	
-	iReport.wAxisX = x;
-	iReport.wAxisY = y;
-	iReport.wAxisZ = JOY_MIDDLE;
-	iReport.wAxisXRot = JOY_MIDDLE;
-	iReport.wAxisYRot = JOY_MIDDLE;
-	iReport.wAxisZRot = JOY_MIDDLE;
-	
-	iReport.lButtons = 0;
-	
-	if(ContPovNumber) {
-		iReport.bHats = -1; // Neutral state
-		iReport.bHatsEx1 = -1; // Neutral state
-		iReport.bHatsEx2 = -1; // Neutral state
-		iReport.bHatsEx3 = -1; // Neutral state
-	}
-	else {
-		iReport.bHats = -1; // Neutral state
-	};
 	
 	if(!UpdateVJD(iInterface, (PVOID)&iReport)) {
 		/*printf("vJoy device %d failed - try to enable device\n", iInterface);

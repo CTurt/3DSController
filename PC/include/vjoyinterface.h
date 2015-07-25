@@ -21,6 +21,35 @@ enum VjdStat  /* Declares an enumeration data type called BOOLEAN */
 	VJD_STAT_MISS,	// The  vJoy Device is missing. It either does not exist or the driver is down.
 	VJD_STAT_UNKN	// Unknown
 }; 
+
+/* Error codes for some of the functions */
+#define NO_HANDLE_BY_INDEX				 -1
+#define BAD_PREPARSED_DATA				 -2
+#define NO_CAPS				 			 -3
+#define BAD_N_BTN_CAPS				 	 -4
+#define BAD_CALLOC				 	 	 -5
+#define BAD_BTN_CAPS				 	 -6
+#define BAD_BTN_RANGE				 	 -7
+#define BAD_N_VAL_CAPS				 	 -8
+#define BAD_ID_RANGE				 	 -9
+#define NO_SUCH_AXIS				 	 -10
+
+/* Environment Variables */
+#define INTERFACE_LOG_LEVEL "VJOYINTERFACELOGLEVEL"
+#define INTERFACE_LOG_FILE  "VJOYINTERFACELOGFILE"
+#define INTERFACE_DEF_LOG_FILE	"vJoyInterface.log"
+
+struct DEV_INFO {
+	BYTE	DeviceID;		// Device ID: Valid values are 1-16
+	BYTE	nImplemented;	// Number of implemented device: Valid values are 1-16
+	BYTE	isImplemented;	// Is this device implemented?
+	BYTE	MaxDevices;		// Maximum number of devices that may be implemented (16)
+	BYTE	DriverFFB;		// Does this driver support FFB (False)
+	BYTE	DeviceFFB;		// Does this device support FFB (False)
+} ;
+
+typedef void (CALLBACK *RemovalCB)(BOOL, BOOL, PVOID);
+
 #endif
 ///////////////////////////// vJoy device (collection) Control interface /////////////////////////////////
 /*
@@ -40,6 +69,8 @@ VJOYINTERFACE_API BOOL	__cdecl vJoyEnabled(void);
 VJOYINTERFACE_API PVOID	__cdecl	GetvJoyProductString(void);
 VJOYINTERFACE_API PVOID	__cdecl	GetvJoyManufacturerString(void);
 VJOYINTERFACE_API PVOID	__cdecl	GetvJoySerialNumberString(void);
+VJOYINTERFACE_API BOOL	__cdecl	DriverMatch(WORD * DllVer, WORD * DrvVer);
+VJOYINTERFACE_API VOID	__cdecl	RegisterRemovalCB(RemovalCB cb, PVOID data);
 
 
 /////	vJoy Device properties

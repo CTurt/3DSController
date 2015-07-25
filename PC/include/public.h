@@ -1,4 +1,37 @@
-#pragma once
+/*++
+
+Copyright (c) Shaul Eizikovich.  All rights reserved.
+
+    THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+    KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+    IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR
+    PURPOSE.
+
+Module Name:
+
+    public.h
+    
+Abstract:
+
+    Public header file for the vJoy project
+	Developpers that need to interface with vJoy need to include this file
+
+Author:
+
+
+Environment:
+
+    kernel mode and User mode
+
+Notes:
+
+
+Revision History:
+
+
+--*/
+#ifndef _PUBLIC_H
+#define _PUBLIC_H
 
 // Compilation directives
 #define PPJOY_MODE
@@ -9,10 +42,6 @@
 #endif
 
 #include <INITGUID.H>	// Definitions for controlling GUID initialization
-
-// Sideband comunication with vJoy Device
-//{781EF630-72B2-11d2-B852-00C04FAD5101}
-DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00, 0xC0, 0x4F, 0xAD, 0x51, 0x01);
 
 //
 // Usage example:
@@ -31,7 +60,7 @@ DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00
 #define VER_X_	0
 #define VER_H_	2
 #define VER_M_	0
-#define VER_L_	4
+#define VER_L_	5
 
 #define STRINGIFY_1(x)   #x
 #define STRINGIFY(x)     STRINGIFY_1(x)
@@ -51,15 +80,34 @@ DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00
 #define	SERIALNUMBER_STR	MAKEWIDE(STRINGIFY(VER_H_)) L"." MAKEWIDE(STRINGIFY(VER_M_)) L"."  MAKEWIDE(STRINGIFY(VER_L_))
 
 // Function codes;
-#define LOAD_POSITIONS	0x910
-#define GETATTRIB		0x911
+//#define LOAD_POSITIONS	0x910
+//#define GETATTRIB		0x911
+// #define GET_FFB_DATA	0x00222912	// METHOD_OUT_DIRECT + FILE_DEVICE_UNKNOWN	+ FILE_ANY_ACCESS
+//#define SET_FFB_STAT	0x913	 // METHOD_NEITHER
+//#define GET_FFB_STAT	0x916
 
-
+#define F_LOAD_POSITIONS	0x910
+#define F_GETATTRIB			0x911
+#define F_GET_FFB_DATA		0x912
+#define F_SET_FFB_STAT		0x913
+#define F_GET_FFB_STAT		0x916
+#define F_GET_DEV_INFO      0x917
 // IO Device Control codes;
-#define IOCTL_VJOY_GET_ATTRIB	CTL_CODE (FILE_DEVICE_UNKNOWN, GETATTRIB, METHOD_BUFFERED, FILE_WRITE_ACCESS)
+#define IOCTL_VJOY_GET_ATTRIB		CTL_CODE (FILE_DEVICE_UNKNOWN, GETATTRIB, METHOD_BUFFERED, FILE_WRITE_ACCESS)
+#define LOAD_POSITIONS	            CTL_CODE (FILE_DEVICE_UNKNOWN, F_LOAD_POSITIONS, METHOD_BUFFERED, FILE_WRITE_ACCESS)
+#define GET_FFB_DATA	            CTL_CODE (FILE_DEVICE_UNKNOWN, F_GET_FFB_DATA, METHOD_OUT_DIRECT, FILE_ANY_ACCESS)
+#define SET_FFB_STAT	            CTL_CODE (FILE_DEVICE_UNKNOWN, F_SET_FFB_STAT, METHOD_NEITHER, FILE_ANY_ACCESS)
+#define GET_FFB_STAT	            CTL_CODE (FILE_DEVICE_UNKNOWN, F_GET_FFB_STAT, METHOD_BUFFERED, FILE_ANY_ACCESS)
+#define GET_DEV_INFO			    CTL_CODE (FILE_DEVICE_UNKNOWN, F_GET_DEV_INFO, METHOD_BUFFERED, FILE_ANY_ACCESS)
 
 #ifndef __HIDPORT_H__
 // Copied from hidport.h
+#define IOCTL_HID_SET_FEATURE	0xB0191
+#define IOCTL_HID_WRITE_REPORT	0xB000F
+
+#define MAX_N_DEVICES	16 // Maximum number of vJoy devices
+
+
 typedef struct _HID_DEVICE_ATTRIBUTES {
 
     ULONG           Size;
@@ -153,11 +201,13 @@ typedef struct _JOYSTICK_POSITION_V2
 	DWORD	bHatsEx1;	// Lower 4 bits: HAT switch or 16-bit of continuous HAT switch
 	DWORD	bHatsEx2;	// Lower 4 bits: HAT switch or 16-bit of continuous HAT switch
 	DWORD	bHatsEx3;	// Lower 4 bits: HAT switch or 16-bit of continuous HAT switch LONG lButtonsEx1; // Buttons 33-64
+	
 	/// JOYSTICK_POSITION_V2 Extenssion
- LONG lButtonsEx1; // Buttons 33-64
- LONG lButtonsEx2; // Buttons 65-96
- LONG lButtonsEx3; // Buttons 97-128
+	LONG lButtonsEx1; // Buttons 33-64
+	LONG lButtonsEx2; // Buttons 65-96
+	LONG lButtonsEx3; // Buttons 97-128
 } JOYSTICK_POSITION_V2, *PJOYSTICK_POSITION_V2;
+
 
 // HID Descriptor definitions
 #define HID_USAGE_X		0x30
@@ -170,3 +220,8 @@ typedef struct _JOYSTICK_POSITION_V2
 #define HID_USAGE_SL1	0x37
 #define HID_USAGE_WHL	0x38
 #define HID_USAGE_POV	0x39
+
+
+#endif
+
+

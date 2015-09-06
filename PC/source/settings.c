@@ -12,8 +12,8 @@ struct settings settings;
 struct settings defaultSettings = {
 	port: 8889,
 	throttle: 20,
-	circlePad: joystick,
-	cStick: joystick,
+	circlePad: joystick1,
+	cStick: joystick2,
 	touch: mouse,
 	mouseSpeed: 4,
 	A: { 1, {'A'} },
@@ -121,17 +121,20 @@ bool readSettings(void) {
 	
 	if(getSetting("Circle Pad: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.circlePad = mouse;
-		else if(strcmp(setting, "JOYSTICK") == 0) settings.circlePad = joystick;
+		else if(strcmp(setting, "JOYSTICK1") == 0) settings.circlePad = joystick1;
+		else if(strcmp(setting, "JOYSTICK2") == 0) settings.circlePad = joystick2;
 	}
 	
 	if(getSetting("C Stick: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.cStick = mouse;
-		else if(strcmp(setting, "JOYSTICK") == 0) settings.cStick = joystick;
+		else if(strcmp(setting, "JOYSTICK1") == 0) settings.cStick = joystick1;
+		else if(strcmp(setting, "JOYSTICK2") == 0) settings.cStick = joystick2;
 	}
 	
 	if(getSetting("Touch: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.touch = mouse;
-		else if(strcmp(setting, "JOYSTICK") == 0) settings.touch = joystick;
+		else if(strcmp(setting, "JOYSTICK1") == 0) settings.touch = joystick1;
+		else if(strcmp(setting, "JOYSTICK2") == 0) settings.touch = joystick2;
 	}
 	
 	if(getSetting("Mouse Speed: ", buffer, setting)) {

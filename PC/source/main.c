@@ -29,8 +29,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	UINT iInterface = 1;
 	
 	iReport.wAxisZ = JOY_MIDDLE;
-	//iReport.wAxisXRot = JOY_MIDDLE; Using these for c stick. Likely reported as axes 4 and 5, skipping 3 as z? Not sure if that's ideal?
-	//iReport.wAxisYRot = JOY_MIDDLE; Makes most sense in vJoy though.
 	iReport.wAxisZRot = JOY_MIDDLE;
 	iReport.wSlider = JOY_MIDDLE;
 	iReport.lButtons = 0;
@@ -160,9 +158,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 							SetCursorPos((int)((double)currentTouch.x * widthMultiplier), (int)((double)currentTouch.y * heightMultiplier));
 						}
 					}
-					else if(settings.touch == joystick) {
+					else if(settings.touch == joystick1) {
 						joyX = (currentTouch.x) * 128;
 						joyY = (currentTouch.y) * 128;
+					}
+					
+					else if(settings.touch == joystick2) {
+						joyRX = (currentTouch.x) * 128;
+						joyRY = (currentTouch.y) * 128;
 					}
 					else {
 						handleKey(KEY_TOUCH, settings.Tap);
@@ -177,9 +180,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					GetCursorPos(&p);
 					SetCursorPos(p.x + (circlePad.x * settings.mouseSpeed) / 32, p.y - (circlePad.y * settings.mouseSpeed) / 32);
 				}
-				else if(settings.circlePad == joystick) {
+				else if(settings.circlePad == joystick1) {
 					joyX = (circlePad.x + 128) * 128;
 					joyY = (128 - circlePad.y) * 128;
+				}
+				
+				else if(settings.circlePad == joystick2) {
+					joyRX = (circlePad.x + 128) * 128;
+					joyRY = (128 - circlePad.y) * 128;
 				}
 				
 				if(settings.cStick == mouse) {
@@ -190,7 +198,13 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					GetCursorPos(&p);
 					SetCursorPos(p.x + (cStick.x * settings.mouseSpeed) / 32, p.y - (cStick.y * settings.mouseSpeed) / 32);
 				}
-				else if(settings.cStick == joystick) {
+				
+				else if(settings.cStick == joystick1) {
+					joyX = (cStick.x + 128) * 128;
+					joyY = (128 - cStick.y) * 128;
+				}
+				
+				else if(settings.cStick == joystick2) {
 					joyRX = (cStick.x + 128) * 128;
 					joyRY = (128 - cStick.y) * 128;
 				}

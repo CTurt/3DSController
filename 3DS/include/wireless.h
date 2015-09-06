@@ -54,6 +54,11 @@ struct packet {
 					unsigned short x;
 					unsigned short y;
 				} touch;
+				
+				struct {
+					short x;
+					short y;
+				} cStick;
 			};
 			struct keysPacket keysPacket;
 		};
@@ -79,4 +84,4 @@ bool openSocket(int port);
 void sendBuf(int length);
 int receiveBuffer(int length);
 void sendConnectionRequest(void);
-void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch);
+void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch, circlePosition cStick);

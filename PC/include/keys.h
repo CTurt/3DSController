@@ -78,6 +78,11 @@ struct circlePad {
 	short y;
 };
 
+struct cStick {
+	short x;
+	short y;
+};
+
 struct touch {
 	short x;
 	short y;
@@ -87,6 +92,7 @@ extern unsigned int lastKeys;
 extern unsigned int currentKeys;
 
 extern struct circlePad circlePad;
+extern struct cStick cStick;
 extern struct touch lastTouch;
 extern struct touch currentTouch;
 

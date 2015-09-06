@@ -13,6 +13,7 @@ struct settings defaultSettings = {
 	port: 8889,
 	throttle: 20,
 	circlePad: joystick,
+	cStick: joystick,
 	touch: mouse,
 	mouseSpeed: 4,
 	A: { 1, {'A'} },
@@ -21,6 +22,8 @@ struct settings defaultSettings = {
 	Y: { 1, {'Y'} },
 	L: { 1, {'L'} },
 	R: { 1, {'R'} },
+	ZL: { 1, {'Q'} },
+	ZR: { 1, {'W'} },
 	Left: { 1, {VK_LEFT} },
 	Right: { 1, {VK_RIGHT} },
 	Up: { 1, {VK_UP} },
@@ -121,6 +124,11 @@ bool readSettings(void) {
 		else if(strcmp(setting, "JOYSTICK") == 0) settings.circlePad = joystick;
 	}
 	
+	if(getSetting("C Stick: ", buffer, setting)) {
+		if(strcmp(setting, "MOUSE") == 0) settings.cStick = mouse;
+		else if(strcmp(setting, "JOYSTICK") == 0) settings.cStick = joystick;
+	}
+	
 	if(getSetting("Touch: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.touch = mouse;
 		else if(strcmp(setting, "JOYSTICK") == 0) settings.touch = joystick;
@@ -136,6 +144,8 @@ bool readSettings(void) {
 	if(getSetting("Y: ", buffer, setting)) settings.Y = getButton(setting);
 	if(getSetting("L: ", buffer, setting))	settings.L = getButton(setting);
 	if(getSetting("R: ", buffer, setting)) settings.R = getButton(setting);
+	if(getSetting("ZL: ", buffer, setting)) settings.ZL = getButton(setting);
+	if(getSetting("ZR: ", buffer, setting)) settings.ZR = getButton(setting);
 	if(getSetting("Left: ", buffer, setting)) settings.Left = getButton(setting);
 	if(getSetting("Right: ", buffer, setting)) settings.Right = getButton(setting);
 	if(getSetting("Up: ", buffer, setting)) settings.Up = getButton(setting);

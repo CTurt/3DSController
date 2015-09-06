@@ -38,11 +38,12 @@ void sendConnectionRequest(void) {
 	sendBuf(offsetof(struct packet, connectPacket) + sizeof(struct connectPacket));
 }
 
-void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch) {
+void sendKeys(unsigned int keys, circlePosition circlePad, touchPosition touch, circlePosition cStick) {
 	outBuf.command = KEYS;
 	outBuf.keyboardActive = keyboardActive;
 	memcpy(&outBuf.keys, &keys, 4);
 	memcpy(&outBuf.circlePad, &circlePad, 4);
 	memcpy(&outBuf.touch, &touch, 4);
+	memcpy(&outBuf.cStick, &cStick, 4);
 	sendBuf(offsetof(struct packet, keysPacket) + sizeof(struct keysPacket));
 }

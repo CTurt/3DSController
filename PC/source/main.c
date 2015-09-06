@@ -29,8 +29,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	UINT iInterface = 1;
 	
 	iReport.wAxisZ = JOY_MIDDLE;
-	iReport.wAxisXRot = JOY_MIDDLE;
-	iReport.wAxisYRot = JOY_MIDDLE;
+	//iReport.wAxisXRot = JOY_MIDDLE; Using these for c stick. Likely reported as axes 4 and 5, skipping 3 as z? Not sure if that's ideal?
+	//iReport.wAxisYRot = JOY_MIDDLE; Makes most sense in vJoy though.
 	iReport.wAxisZRot = JOY_MIDDLE;
 	iReport.wSlider = JOY_MIDDLE;
 	iReport.lButtons = 0;
@@ -93,6 +93,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				lastTouch.y = 0;
 				currentTouch.x = 0;
 				currentTouch.y = 0;
+				cStick.x = 0;
+				cStick.y = 0;
 				
 				buffer.command = CONNECT;
 				printf("3DS Connected!\n");
@@ -114,6 +116,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				memcpy(&currentKeys, &buffer.keys, 4);
 				memcpy(&circlePad, &buffer.circlePad, 4);
 				memcpy(&currentTouch, &buffer.touch, 4);
+				memcpy(&cStick, &buffer.cStick, 4);
 				
 				handleKey(KEY_A, settings.A);
 				handleKey(KEY_B, settings.B);
@@ -125,6 +128,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_DDOWN, settings.Down);
 				handleKey(KEY_R, settings.R);
 				handleKey(KEY_L, settings.L);
+				handleKey(KEY_ZR, settings.ZR);
+				handleKey(KEY_ZL, settings.ZL);
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
 				
@@ -175,6 +180,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				else if(settings.circlePad == joystick) {
 					joyX = (circlePad.x + 128) * 128;
 					joyY = (128 - circlePad.y) * 128;
+				}
+				
+				if(settings.cStick == mouse) {
+					if(abs(cStick.x) < settings.mouseSpeed * 3) cStick.x = 0;
+					if(abs(cStick.y) < settings.mouseSpeed * 3) cStick.y = 0;
+					
+					POINT p;
+					GetCursorPos(&p);
+					SetCursorPos(p.x + (cStick.x * settings.mouseSpeed) / 32, p.y - (cStick.y * settings.mouseSpeed) / 32);
+				}
+				else if(settings.cStick == joystick) {
+					joyRX = (cStick.x + 128) * 128;
+					joyRY = (128 - cStick.y) * 128;
 				}
 				
 				break;

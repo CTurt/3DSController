@@ -6,7 +6,8 @@
 
 enum analogue {
 	mouse,
-	joystick,
+	joystick1,
+	joystick2,
 };
 
 struct settings {

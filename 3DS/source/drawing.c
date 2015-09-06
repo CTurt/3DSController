@@ -155,3 +155,21 @@ void drawStringFramebuffer(u8 *fb, int sx, int sy, char *text, ...) {
 		sx += 8;
 	}
 }
+
+static u32 brightnessMain;
+static u32 brightnessSub;
+
+void disableBacklight() {
+	u32 off = 0;
+	
+	GSPGPU_ReadHWRegs(NULL, REG_LCDBACKLIGHTMAIN, &brightnessMain, 4);
+	GSPGPU_ReadHWRegs(NULL, REG_LCDBACKLIGHTSUB, &brightnessSub, 4);
+	
+	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTMAIN, &off, 4);
+	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTSUB, &off, 4);
+}
+
+void enableBacklight() {
+	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTMAIN, &brightnessMain, 4);
+	GSPGPU_WriteHWRegs(NULL, REG_LCDBACKLIGHTSUB, &brightnessSub, 4);
+}

@@ -55,6 +55,7 @@ static bool getSetting(char *name, char *src, char *dest) {
 static struct keyMapping getButton(char *string) {
 	struct keyMapping k = { 1, {0} };
 	
+	k.useJoypad = 0;
 	if(strcmp(string, "SPACE") == 0) k.virtualKey = VK_SPACE;
 	else if(strcmp(string, "CLICK") == 0) k.virtualKey = VK_LBUTTON;
 	else if(strcmp(string, "RIGHT CLICK") == 0) k.virtualKey = VK_RBUTTON;
@@ -71,14 +72,22 @@ static struct keyMapping getButton(char *string) {
 	else if(strcmp(string, "WINDOWS") == 0) k.virtualKey = VK_LWIN;
 	else if(strcmp(string, "NONE") == 0) k.virtualKey = 0;
 	
-	else if(strcmp(string, "JOY1") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 0; }
-	else if(strcmp(string, "JOY2") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 1; }
-	else if(strcmp(string, "JOY3") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 2; }
-	else if(strcmp(string, "JOY4") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 3; }
-	else if(strcmp(string, "JOY5") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 4; }
-	else if(strcmp(string, "JOY6") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 5; }
-	else if(strcmp(string, "JOY7") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 6; }
-	else if(strcmp(string, "JOY8") == 0) { k.useKeyboard = 0; k.joypadButton = 1 << 7; }
+	else if(strcmp(string, "JOY1") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 0; }
+	else if(strcmp(string, "JOY2") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 1; }
+	else if(strcmp(string, "JOY3") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 2; }
+	else if(strcmp(string, "JOY4") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 3; }
+	else if(strcmp(string, "JOY5") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 4; }
+	else if(strcmp(string, "JOY6") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 5; }
+	else if(strcmp(string, "JOY7") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 6; }
+	else if(strcmp(string, "JOY8") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 7; }
+	else if(strcmp(string, "JOY9") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 0; }
+	else if(strcmp(string, "JOY10") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 1; }
+	else if(strcmp(string, "JOY11") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 2; }
+	else if(strcmp(string, "JOY12") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 3; }
+	else if(strcmp(string, "JOY13") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 4; }
+	else if(strcmp(string, "JOY14") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 5; }
+	else if(strcmp(string, "JOY15") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 6; }
+	else if(strcmp(string, "JOY16") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 7; }
 	
 	else k.virtualKey = (int)string[0];
 	

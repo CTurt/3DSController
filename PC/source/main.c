@@ -28,9 +28,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	bool vJoy = true;
 	UINT iInterface = 1;
 	
+	iReport.wAxisX = JOY_MIDDLE;
+	iReport.wAxisY = JOY_MIDDLE;
 	iReport.wAxisZ = JOY_MIDDLE;
+	iReport.wAxisXRot = JOY_MIDDLE;
+	iReport.wAxisYRot = JOY_MIDDLE;
 	iReport.wAxisZRot = JOY_MIDDLE;
 	iReport.wSlider = JOY_MIDDLE;
+	iReport.wDial = JOY_MIDDLE;
 	iReport.lButtons = 0;
 	iReport.bHats = -1;
 	
@@ -58,6 +63,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	}
 	
 	initNetwork();
+	
+	char nButtons = GetVJDButtonNumber(iInterface);
+	if(nButtons <16) printf("Your vJoy has less than 16 buttons (8 by default), some may not work!\n");
 	
 	printf("Port: %d\n", settings.port);
 	

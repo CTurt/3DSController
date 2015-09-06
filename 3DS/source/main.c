@@ -87,12 +87,14 @@ int main(void) {
 	
 	while(aptMainLoop()) {
 		hidScanInput();
-		//irrstScanInput();
+		irrstScanInput();
 		
 		u32 kHeld = hidKeysHeld();
+		
 		circlePosition circlePad;
-		//hidCstickRead(&cstick);
+		circlePosition cStick;
 		hidCircleRead(&circlePad);
+		irrstCstickRead(&cStick);
 		touchPosition touch;
 		touchRead(&touch);
 		
@@ -133,7 +135,7 @@ int main(void) {
 			}
 		}
 		
-		sendKeys(kHeld, circlePad, touch);
+		sendKeys(kHeld, circlePad, touch, cStick);
 		
 		receiveBuffer(sizeof(struct packet));
 		

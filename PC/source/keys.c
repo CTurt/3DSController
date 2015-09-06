@@ -8,6 +8,7 @@ unsigned int lastKeys;
 unsigned int currentKeys;
 
 struct circlePad circlePad;
+struct cStick cStick;
 struct touch lastTouch;
 struct touch currentTouch;
 

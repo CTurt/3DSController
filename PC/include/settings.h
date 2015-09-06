@@ -6,16 +6,18 @@
 
 enum analogue {
 	mouse,
-	joystick,
+	joystick1,
+	joystick2,
 };
 
 struct settings {
 	int port;
 	int throttle;
 	enum analogue circlePad;
+	enum analogue cStick;
 	enum analogue touch;
 	int mouseSpeed;
-	struct keyMapping A, B, X, Y, L, R, Left, Right, Up, Down, Start, Select, Tap;
+	struct keyMapping A, B, X, Y, L, R, ZL, ZR, Left, Right, Up, Down, Start, Select, Tap;
 };
 
 extern struct settings settings;

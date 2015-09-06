@@ -28,11 +28,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	bool vJoy = true;
 	UINT iInterface = 1;
 	
+	iReport.wAxisX = JOY_MIDDLE;
+	iReport.wAxisY = JOY_MIDDLE;
 	iReport.wAxisZ = JOY_MIDDLE;
 	iReport.wAxisXRot = JOY_MIDDLE;
 	iReport.wAxisYRot = JOY_MIDDLE;
 	iReport.wAxisZRot = JOY_MIDDLE;
 	iReport.wSlider = JOY_MIDDLE;
+	iReport.wDial = JOY_MIDDLE;
 	iReport.lButtons = 0;
 	iReport.bHats = -1;
 	
@@ -60,6 +63,9 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	}
 	
 	initNetwork();
+	
+	char nButtons = GetVJDButtonNumber(iInterface);
+	if(nButtons <16) printf("Your vJoy has less than 16 buttons (8 by default), some may not work!\n");
 	
 	printf("Port: %d\n", settings.port);
 	
@@ -93,6 +99,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				lastTouch.y = 0;
 				currentTouch.x = 0;
 				currentTouch.y = 0;
+				cStick.x = 0;
+				cStick.y = 0;
 				
 				buffer.command = CONNECT;
 				printf("3DS Connected!\n");
@@ -114,6 +122,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				memcpy(&currentKeys, &buffer.keys, 4);
 				memcpy(&circlePad, &buffer.circlePad, 4);
 				memcpy(&currentTouch, &buffer.touch, 4);
+				memcpy(&cStick, &buffer.cStick, 4);
 				
 				handleKey(KEY_A, settings.A);
 				handleKey(KEY_B, settings.B);
@@ -125,6 +134,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_DDOWN, settings.Down);
 				handleKey(KEY_R, settings.R);
 				handleKey(KEY_L, settings.L);
+				handleKey(KEY_ZR, settings.ZR);
+				handleKey(KEY_ZL, settings.ZL);
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
 				
@@ -155,9 +166,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 							SetCursorPos((int)((double)currentTouch.x * widthMultiplier), (int)((double)currentTouch.y * heightMultiplier));
 						}
 					}
-					else if(settings.touch == joystick) {
+					else if(settings.touch == joystick1) {
 						joyX = (currentTouch.x) * 128;
 						joyY = (currentTouch.y) * 128;
+					}
+					
+					else if(settings.touch == joystick2) {
+						joyRX = (currentTouch.x) * 128;
+						joyRY = (currentTouch.y) * 128;
 					}
 					else {
 						handleKey(KEY_TOUCH, settings.Tap);
@@ -172,9 +188,33 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					GetCursorPos(&p);
 					SetCursorPos(p.x + (circlePad.x * settings.mouseSpeed) / 32, p.y - (circlePad.y * settings.mouseSpeed) / 32);
 				}
-				else if(settings.circlePad == joystick) {
+				else if(settings.circlePad == joystick1) {
 					joyX = (circlePad.x + 128) * 128;
 					joyY = (128 - circlePad.y) * 128;
+				}
+				
+				else if(settings.circlePad == joystick2) {
+					joyRX = (circlePad.x + 128) * 128;
+					joyRY = (128 - circlePad.y) * 128;
+				}
+				
+				if(settings.cStick == mouse) {
+					if(abs(cStick.x) < settings.mouseSpeed * 3) cStick.x = 0;
+					if(abs(cStick.y) < settings.mouseSpeed * 3) cStick.y = 0;
+					
+					POINT p;
+					GetCursorPos(&p);
+					SetCursorPos(p.x + (cStick.x * settings.mouseSpeed) / 32, p.y - (cStick.y * settings.mouseSpeed) / 32);
+				}
+				
+				else if(settings.cStick == joystick1) {
+					joyX = (cStick.x + 128) * 128;
+					joyY = (128 - cStick.y) * 128;
+				}
+				
+				else if(settings.cStick == joystick2) {
+					joyRX = (cStick.x + 128) * 128;
+					joyRY = (128 - cStick.y) * 128;
 				}
 				
 				break;

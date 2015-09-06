@@ -21,13 +21,17 @@
 #define release(key) (!(currentKeys & key) && (lastKeys & key))
 
 #define handleKey(DSKey, PCKey) do {\
-	if(PCKey.useKeyboard) {\
+	if(!PCKey.useJoypad) {\
 		if(newpress(DSKey)) simulateKeyNewpress(PCKey.virtualKey);\
 		if(release(DSKey)) simulateKeyRelease(PCKey.virtualKey);\
 	}\
-	else {\
+	else if(PCKey.useJoypad == 1) {\
 		if(currentKeys & DSKey) joyButtons |= PCKey.joypadButton;\
 		else joyButtons &= ~PCKey.joypadButton;\
+	}\
+	else if(PCKey.useJoypad == 2) {\
+		if(currentKeys & DSKey) joyButtons |= PCKey.joypadButton << 8;\
+		else joyButtons &= ~(PCKey.joypadButton << 8);\
 	}\
 } while(0)
 
@@ -66,7 +70,7 @@ typedef enum {
 } KEYPAD_BITS;
 
 struct keyMapping {
-	unsigned char useKeyboard; // 0 joypad button, 1 keyboard key
+	unsigned char useJoypad; // 0 keyboard key, 1 joypad1-8, 2 joypad9-16
 	union {
 		unsigned char virtualKey;
 		unsigned char joypadButton;
@@ -74,6 +78,11 @@ struct keyMapping {
 };
 
 struct circlePad {
+	short x;
+	short y;
+};
+
+struct cStick {
 	short x;
 	short y;
 };
@@ -87,6 +96,7 @@ extern unsigned int lastKeys;
 extern unsigned int currentKeys;
 
 extern struct circlePad circlePad;
+extern struct cStick cStick;
 extern struct touch lastTouch;
 extern struct touch currentTouch;
 

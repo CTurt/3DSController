@@ -46,6 +46,11 @@ struct packet {
 				unsigned short x;
 				unsigned short y;
 			} touch;
+			
+			struct {
+				short x;
+				short y;
+			} cStick;
 		};
 		struct keysPacket keysPacket;
 		

@@ -15,7 +15,9 @@
 #define KEYEVENTF_SCANCODE 0x08
 #endif
 
+#ifndef MAPVK_VK_TO_VSC
 #define MAPVK_VK_TO_VSC 0
+#endif
 
 #define newpress(key) ((currentKeys & key) && !(lastKeys & key))
 #define release(key) (!(currentKeys & key) && (lastKeys & key))

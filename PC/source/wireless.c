@@ -3,7 +3,6 @@
 #include "general.h"
 
 #include "settings.h"
-#include "screenshot.h"
 
 #include "wireless.h"
 
@@ -78,25 +77,4 @@ void sendBuffer(int length) {
 
 int receiveBuffer(int length) {
 	return recvfrom(listener, (char *)&buffer, length, 0, (struct sockaddr *)&client_in, &sockaddr_in_sizePtr);
-}
-
-void sendScreenshot(void) {
-	FILE *f = fopen(SCREENSHOT_NAME, "rb");
-	fseek(f, 0, SEEK_END);
-	size_t len = ftell(f);
-	unsigned char *screenshotData = malloc(len);
-	rewind(f);
-	fread(screenshotData, len, 1, f);
-	fclose(f);
-	
-	buffer.command = SCREENSHOT;
-	
-	while(1) {
-		int tl = len - buffer.offset > SCREENSHOT_CHUNK ? SCREENSHOT_CHUNK : len - buffer.offset;
-		memcpy(buffer.data, screenshotData + buffer.offset, tl);
-		sendBuffer(tl + offsetof(struct packet, screenshotPacket));
-		if(tl < SCREENSHOT_CHUNK) break;
-	}
-	
-	free(screenshotData);
 }

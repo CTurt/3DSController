@@ -6,7 +6,7 @@ A 3DS homebrew application which allows you to use your 3DS as a wireless contro
 The latest release will always be downloadable from [here](https://github.com/CTurt/3DSController/releases/).
 
 ### Setup and Usage
-Firstly, if you want to be able to use the circle pad as a joystick you will need to install [vJoy (version 2.0.4 is preferable)](http://sourceforge.net/projects/vjoystick/files/Beta%202.x/2.0.4%20220914/vJoy_204_I220914.exe/download). However, if you just want to use the buttons, this is not necessary.
+Firstly, if you want to be able to use the circle pad as a joystick you will need to install [vJoy (version 2.0.5-120515 is preferable)](http://sourceforge.net/projects/vjoystick/files/Beta%202.x/2.0.5-120515/vJoy_205_050515.exe/download). However, if you just want to use keyboard buttons, this is not necessary.
 
 Extract the archive and copy the executable in the `3DS` directory with the extension that applies to your loader: `3DSController.3dsx` and `3DSController.smdh` for Ninjhax, `3DSController.3ds` for flashcards, or `3DSController.cia` for CFWs, into your 3DS's SD card or flashcard's micro SD card.
 
@@ -24,10 +24,12 @@ Otherwise, you should just see a black screen, this is a good sign. To see if it
 
 If using version 0.4 or above you can press L, R and X to bring up the keyboard. Press L, R and X again to close it.
 
+If using version 0.6 or above, up to 16 joystick buttons are available. If you wish to use more than 8, you need to configure vJoy. Search in your start menu for vJoyConfig and set buttons to 16.
+
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Configuration
-Find the line `Port: 8888` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
+Find the line `Port: 8889` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.
 

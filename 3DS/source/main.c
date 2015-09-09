@@ -34,7 +34,8 @@ int main(void) {
 	acInit();
 	gfxInitDefault();
 	
-	//consoleInit(GFX_BOTTOM, NULL);
+	gfxSetDoubleBuffering(GFX_TOP, false);
+	gfxSetDoubleBuffering(GFX_BOTTOM, false);
 	
 	if(setjmp(exitJmp)) goto exit;
 	
@@ -81,20 +82,17 @@ int main(void) {
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
-	clearScreen();
-	gfxFlushBuffers();
-	gfxSwapBuffers();
+	disableBacklight();
 	
 	while(aptMainLoop()) {
 		hidScanInput();
 		irrstScanInput();
 		
 		u32 kHeld = hidKeysHeld();
-		
 		circlePosition circlePad;
 		circlePosition cStick;
+		hidCstickRead(&cStick);
 		hidCircleRead(&circlePad);
-		irrstCstickRead(&cStick);
 		touchPosition touch;
 		touchRead(&touch);
 		
@@ -104,6 +102,8 @@ int main(void) {
 			if(keyboardToggle) {
 				keyboardActive = !keyboardActive;
 				keyboardToggle = false;
+				
+				if(keyboardActive) enableBacklight();
 			}
 		}
 		else keyboardToggle = true;
@@ -137,15 +137,7 @@ int main(void) {
 		
 		sendKeys(kHeld, circlePad, touch, cStick);
 		
-		receiveBuffer(sizeof(struct packet));
-		
-		/*u8 *frame = gfxGetFramebuffer(GFX_TOP, GFX_LEFT, NULL, NULL);
-		
-		switch(rcvBuf.command) {
-			case SCREENSHOT:
-				//drawStringFramebuffer(frame, 10, 10, "R");
-				break;
-		}*/
+		//receiveBuffer(sizeof(struct packet));
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
 		
@@ -155,6 +147,8 @@ int main(void) {
 	}
 	
 	exit:
+	
+	enableBacklight();
 	
 	SOC_Shutdown();
 	

@@ -1,16 +1,13 @@
 CC		:=	gcc
-CP		:=	g++
-LN		:=	g++
+LN		:=	gcc
 ODIR	:=	build
 SDIR	:=	source
 IDIR	:=	include
 LDIR	:=	lib
 CFLAGS	:=	-I$(IDIR) -fms-extensions -O2 -Wall
-LFLAGS	:=	-L$(LDIR) -lvJoyInterface -lws2_32 -lGdi32 -lgdiplus -static-libgcc -static-libstdc++
+LFLAGS	:=	$(LDIR)/vJoyInterface.lib -lws2_32 -lGdi32 -lgdiplus -static-libgcc
 CFILES	:=	$(wildcard $(SDIR)/*.c)
-CPPFILES	:=	$(wildcard $(SDIR)/*.cpp)
-OBJS	:=	$(patsubst $(SDIR)/%.c, build/%.o, $(wildcard $(SDIR)/*.c))
-OBJS	+=	$(patsubst $(SDIR)/%.cpp, build/%.o, $(wildcard $(SDIR)/*.cpp))
+OBJS	:=	$(patsubst $(SDIR)/%.c, $(ODIR)/%.o, $(wildcard $(SDIR)/*.c))
 
 PLATFORM = $(shell uname)
 
@@ -31,9 +28,6 @@ $(TARGET): $(ODIR) $(OBJS)
 
 $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) -c -o $@ $< $(CFLAGS) 
-
-$(ODIR)/%.o: $(SDIR)/%.cpp
-	$(CP) -c -o $@ $< $(CFLAGS)
 
 $(ODIR):
 	@mkdir $@

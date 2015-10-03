@@ -34,8 +34,8 @@ int main(void) {
 	acInit();
 	gfxInitDefault();
 	
-	gfxSetDoubleBuffering(GFX_TOP, false);
-	gfxSetDoubleBuffering(GFX_BOTTOM, false);
+	gfxSetDoubleBuffering(GFX_TOP, true);
+	gfxSetDoubleBuffering(GFX_BOTTOM, true);
 	
 	if(setjmp(exitJmp)) goto exit;
 	
@@ -103,7 +103,11 @@ int main(void) {
 				keyboardActive = !keyboardActive;
 				keyboardToggle = false;
 				
-				if(keyboardActive) enableBacklight();
+				if(keyboardActive) {
+					enableBacklight();
+				} else {
+					disableBacklight();
+				}
 			}
 		}
 		else keyboardToggle = true;

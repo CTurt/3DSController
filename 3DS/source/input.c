@@ -8,6 +8,8 @@
 
 #include "input.h"
 
+//Insert line of text here to test if Git for Windows will work with this repo.
+
 int inputIP(void) {
 	touchPosition touch;
 	hidTouchRead(&touch);

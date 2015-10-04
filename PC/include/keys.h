@@ -97,6 +97,8 @@ struct touch {
 extern unsigned int lastKeys;
 extern unsigned int currentKeys;
 
+extern unsigned int volume;
+
 extern struct circlePad circlePad;
 extern struct cStick cStick;
 extern struct touch lastTouch;

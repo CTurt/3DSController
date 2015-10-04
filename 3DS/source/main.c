@@ -91,8 +91,12 @@ int main(void) {
 		u32 kHeld = hidKeysHeld();
 		circlePosition circlePad;
 		circlePosition cStick;
+		u8 vol8;
+		u8* volp = &vol8; //As a test for pointing at things.
 		hidCstickRead(&cStick);
 		hidCircleRead(&circlePad);
+		HIDUSER_GetSoundVolume(volp);
+		u32 volume = (u32)vol8; //Upscale to 32 for transmission
 		touchPosition touch;
 		touchRead(&touch);
 		
@@ -139,8 +143,8 @@ int main(void) {
 			}
 		}
 		
-		sendKeys(kHeld, circlePad, touch, cStick);
-		
+		sendKeys(kHeld, circlePad, touch, cStick, volume);
+		drawString(10, 10, "Volume: %x", volume);
 		//receiveBuffer(sizeof(struct packet));
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);

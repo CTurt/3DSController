@@ -120,6 +120,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				memcpy(&circlePad, &buffer.circlePad, 4);
 				memcpy(&currentTouch, &buffer.touch, 4);
 				memcpy(&cStick, &buffer.cStick, 4);
+				memcpy(&volume, &buffer.volume, 4);
+				//printf("\rVolume is currently: %x ", volume); //test
 				
 				handleKey(KEY_A, settings.A);
 				handleKey(KEY_B, settings.B);
@@ -213,6 +215,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					joyRX = (cStick.x + 128) * 128;
 					joyRY = (128 - cStick.y) * 128;
 				}
+				
+				joyVolume = volume * 512;
 				
 				break;
 		}

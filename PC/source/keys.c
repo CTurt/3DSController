@@ -6,6 +6,7 @@ DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00
 
 unsigned int lastKeys;
 unsigned int currentKeys;
+unsigned int volume; //slider
 
 struct circlePad circlePad;
 struct cStick cStick;

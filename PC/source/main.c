@@ -127,10 +127,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_B, settings.B);
 				handleKey(KEY_SELECT, settings.Select);
 				handleKey(KEY_START, settings.Start);
-				handleKey(KEY_DRIGHT, settings.Right);
-				handleKey(KEY_DLEFT, settings.Left);
-				handleKey(KEY_DUP, settings.Up);
-				handleKey(KEY_DDOWN, settings.Down);
+				if(!settings.isUsingPov) { //Handle normally if not using POV in settings.
+					handleKey(KEY_DRIGHT, settings.Right);
+					handleKey(KEY_DLEFT, settings.Left);
+					handleKey(KEY_DUP, settings.Up);
+					handleKey(KEY_DDOWN, settings.Down);
+				}
 				handleKey(KEY_R, settings.R);
 				handleKey(KEY_L, settings.L);
 				handleKey(KEY_ZR, settings.ZR);
@@ -214,6 +216,41 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				else if(settings.cStick == joystick2) {
 					joyRX = (cStick.x + 128) * 128;
 					joyRY = (128 - cStick.y) * 128;
+				}
+				
+				
+				if(settings.isUsingPov) {
+					if((currentKeys & KEY_DUP) && !(currentKeys & KEY_DLEFT)) {
+						if((currentKeys & KEY_DRIGHT)) {
+							povHat = 4500;
+						} else {
+							povHat = 0;
+						}
+					} else if((currentKeys & KEY_DRIGHT)) {
+						if((currentKeys & KEY_DDOWN)) {
+							povHat = 13500;
+						} else {
+							povHat = 9000;
+						}
+					} else if((currentKeys & KEY_DDOWN)) {
+						if((currentKeys & KEY_DLEFT)) {
+							povHat = 22500;
+						} else {
+							povHat = 18000;
+						}
+					} else if((currentKeys & KEY_DLEFT)) {
+						if ((currentKeys & KEY_DUP)) {
+							povHat = 31500;
+						} else {
+							povHat = 27000;
+						}
+					}
+					
+					if(!((currentKeys & KEY_DUP) || (currentKeys & KEY_DRIGHT) || (currentKeys & KEY_DDOWN) || (currentKeys & KEY_DLEFT))) {
+						//If none are pressed, reset the POV hat
+						povHat = -1;
+					}
+					
 				}
 				
 				joyVolume = volume * 512;

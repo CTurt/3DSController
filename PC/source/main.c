@@ -167,17 +167,27 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 							SetCursorPos((int)((double)currentTouch.x * widthMultiplier), (int)((double)currentTouch.y * heightMultiplier));
 						}
 					}
-					else if(settings.touch == joystick1) {
-						joyX = (currentTouch.x) * 128;
-						joyY = (currentTouch.y) * 128;
+					else if(settings.touch == joystick1) { //made a little bit more accurate to the screen size.
+						joyX = (int)((float)(currentTouch.x) * 102.3f);
+						joyY = (int)((float)(currentTouch.y) * 136.5f);
 					}
 					
 					else if(settings.touch == joystick2) {
-						joyRX = (currentTouch.x) * 128;
-						joyRY = (currentTouch.y) * 128;
+						joyRX = (int)((float)(currentTouch.x) * 102.3f);
+						joyRY = (int)((float)(currentTouch.y) * 136.5f);
 					}
 					else {
 						handleKey(KEY_TOUCH, settings.Tap);
+					}
+				} else { //If we are not touching, move to center (Like if you release the joystick on a normal controller).
+					if(settings.touch == joystick1) {
+						joyX = 16383; //Halfway between the x
+						joyY = 16383; //Halfway between the y
+					}
+					
+					else if(settings.touch == joystick2) {
+						joyRX = 16383; //Halfway between the rx
+						joyRY = 16383; //Halfway between the ry
 					}
 				}
 				

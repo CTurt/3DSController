@@ -62,7 +62,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	initNetwork();
 	
 	char nButtons = GetVJDButtonNumber(iInterface);
-	if(nButtons <16) printf("Your vJoy has less than 16 buttons (8 by default), some may not work!\n");
+	if(nButtons <16) printf("Your vJoy has %d buttons, 3DSController supports 16!\n", nButtons);
 	
 	printf("Port: %d\n", settings.port);
 	

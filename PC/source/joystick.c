@@ -4,12 +4,11 @@
 #include "joystick.h"
 
 int ContPovNumber;
-UINT iInterface = 1;
 //BOOL ContinuousPOV = FALSE;
 
 JOYSTICK_POSITION iReport;
 
-BOOL updateJoystick(void) {
+BOOL updateJoystick(iInterface) {
 	BYTE id = (BYTE)iInterface;
 	
 	iReport.bDevice = id;

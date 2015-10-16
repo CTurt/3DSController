@@ -17,6 +17,7 @@ struct settings {
 	enum analogue cStick;
 	enum analogue touch;
 	int mouseSpeed;
+	UINT vJoyDevice;
 	struct keyMapping A, B, X, Y, L, R, ZL, ZR, Left, Right, Up, Down, Start, Select, Tap;
 };
 

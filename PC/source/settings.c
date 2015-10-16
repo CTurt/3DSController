@@ -16,6 +16,7 @@ struct settings defaultSettings = {
 	cStick: joystick2,
 	touch: mouse,
 	mouseSpeed: 4,
+	vJoyDevice: 1,
 	A: { 1, {'A'} },
 	B: { 1, {'B'} },
 	X: { 1, {'X'} },
@@ -148,6 +149,10 @@ bool readSettings(void) {
 	
 	if(getSetting("Mouse Speed: ", buffer, setting)) {
 		sscanf(setting, "%d", &settings.mouseSpeed);
+	}
+	
+	if(getSetting("vJoy Device: ", buffer, setting)) {
+		sscanf(setting, "%d", &settings.vJoyDevice);
 	}
 	
 	if(getSetting("A: ", buffer, setting)) settings.A = getButton(setting);

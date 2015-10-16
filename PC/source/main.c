@@ -22,8 +22,12 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	double widthMultiplier = screenWidth / 320.0;
 	double heightMultiplier = screenHeight / 240.0;
 	
+	if(!readSettings()) {
+		printf("Couldn't read settings file, using default key bindings.\n");
+	}
+	
 	bool vJoy = true;
-	UINT iInterface = 1;
+	UINT iInterface = settings.vJoyDevice;
 	
 	iReport.wAxisX = JOY_MIDDLE;
 	iReport.wAxisY = JOY_MIDDLE;
@@ -50,19 +54,15 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	ContPovNumber = GetVJDContPovNumber(iInterface);
 	//int DiscPovNumber = GetVJDDiscPovNumber(iInterface);
 	
-	if(vJoy && !updateJoystick()) {
-		printf("vJoy failed (3)! Buttons will still work, but joystick won't work.\n");
+	if(vJoy && !updateJoystick(iInterface)) {
+		printf("vJoy failed (3)! Buttons will still work, but joystick won't work.\nIs vJoy device %d configured?\n",iInterface);
 		vJoy = false;
-	}
-	
-	if(!readSettings()) {
-		printf("Couldn't read settings file, using default key bindings.\n");
-	}
+	} else printf("Connected to vJoy device %d\n",iInterface);
 	
 	initNetwork();
 	
 	char nButtons = GetVJDButtonNumber(iInterface);
-	if(nButtons <16) printf("Your vJoy has %d buttons, 3DSController supports 16!\n", nButtons);
+	if(vJoy && nButtons <16) printf("Your vJoy has %d buttons, 3DSController supports 16!\n", nButtons);
 	
 	printf("Port: %d\n", settings.port);
 	
@@ -217,7 +217,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				break;
 		}
 		
-		if(vJoy) updateJoystick();
+		if(vJoy) updateJoystick(iInterface);
 	}
 	
 	error("accept()");

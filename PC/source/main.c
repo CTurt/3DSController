@@ -136,6 +136,20 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
 				
+				if(settings.circlePad == keys) {
+					handleKey(KEY_CPAD_RIGHT, settings.PadRight);
+					handleKey(KEY_CPAD_LEFT, settings.PadLeft);
+					handleKey(KEY_CPAD_UP, settings.PadUp);
+					handleKey(KEY_CPAD_DOWN, settings.PadDown);
+				}
+				
+				if(settings.cStick == keys) {
+					handleKey(KEY_CSTICK_RIGHT, settings.CSRight);
+					handleKey(KEY_CSTICK_LEFT, settings.CSLeft);
+					handleKey(KEY_CSTICK_UP, settings.CSUp);
+					handleKey(KEY_CSTICK_DOWN, settings.CSDown);
+				}
+				
 				//handleKey(KEY_LID, 'I');
 				
 				if(newpress(KEY_TOUCH)) {

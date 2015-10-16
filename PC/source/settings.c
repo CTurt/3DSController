@@ -133,12 +133,14 @@ bool readSettings(void) {
 		if(strcmp(setting, "MOUSE") == 0) settings.circlePad = mouse;
 		else if(strcmp(setting, "JOYSTICK1") == 0) settings.circlePad = joystick1;
 		else if(strcmp(setting, "JOYSTICK2") == 0) settings.circlePad = joystick2;
+		else if(strcmp(setting, "KEYS") == 0) settings.circlePad = keys;
 	}
 	
 	if(getSetting("C Stick: ", buffer, setting)) {
 		if(strcmp(setting, "MOUSE") == 0) settings.cStick = mouse;
 		else if(strcmp(setting, "JOYSTICK1") == 0) settings.cStick = joystick1;
 		else if(strcmp(setting, "JOYSTICK2") == 0) settings.cStick = joystick2;
+		else if(strcmp(setting, "KEYS") == 0) settings.cStick = keys;
 	}
 	
 	if(getSetting("Touch: ", buffer, setting)) {
@@ -170,6 +172,20 @@ bool readSettings(void) {
 	if(getSetting("Start: ", buffer, setting)) settings.Start = getButton(setting);
 	if(getSetting("Select: ", buffer, setting)) settings.Select = getButton(setting);
 	if(getSetting("Tap: ", buffer, setting)) settings.Tap = getButton(setting);
+	
+	if(settings.circlePad == keys) {
+		if(getSetting("Pad Left: ", buffer, setting)) settings.PadLeft = getButton(setting);
+		if(getSetting("Pad Right: ", buffer, setting)) settings.PadRight = getButton(setting);
+		if(getSetting("Pad Up: ", buffer, setting)) settings.PadUp = getButton(setting);
+		if(getSetting("Pad Down: ", buffer, setting)) settings.PadDown = getButton(setting);
+	}
+	
+	if(settings.cStick == keys) {
+		if(getSetting("C Stick Left: ", buffer, setting)) settings.CSLeft = getButton(setting);
+		if(getSetting("C Stick Right: ", buffer, setting)) settings.CSRight = getButton(setting);
+		if(getSetting("C Stick Up: ", buffer, setting)) settings.CSUp = getButton(setting);
+		if(getSetting("C Stick Down: ", buffer, setting)) settings.CSDown = getButton(setting);
+	}
 	
 	fclose(f);
 	

@@ -28,6 +28,8 @@ If using version 0.4 or above you can press L, R and X to bring up the keyboard.
 
 If using version 0.6 or above, up to 16 joystick buttons are available. If you wish to use more than 8, you need to configure vJoy. Search in your start menu for vJoyConfig and set buttons to 16.
 
+If using version 0.7 or above, the output vJoy device is configurable. To output to a device other than 1 it must first be enabled in vJoyConfig.
+
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Configuration

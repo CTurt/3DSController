@@ -161,6 +161,7 @@ AccessControlInfo:
    - y2r:u
    - ldr:ro
    - ir:USER
+   - ir:rst
   
    
 SystemControlInfo:

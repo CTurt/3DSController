@@ -196,7 +196,7 @@ AccessControlInfo:
    - y2r:u
    - ldr:ro
    - ir:USER
-  
+   - ir:rst
    
 SystemControlInfo:
   SaveDataSize: 0KB # It doesn't use any save data.

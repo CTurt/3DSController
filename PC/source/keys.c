@@ -1,8 +1,9 @@
 #include "keys.h"
+#include "joystick.h"
 
 // Sideband comunication with vJoy Device
 //{781EF630-72B2-11d2-B852-00C04FAD5101}
-DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00, 0xC0, 0x4F, 0xAD, 0x51, 0x01);
+//DEFINE_GUID(GUID_DEVINTERFACE_VJOY, 0x781EF630, 0x72B2, 0x11d2, 0xB8, 0x52, 0x00, 0xC0, 0x4F, 0xAD, 0x51, 0x01);
 
 unsigned int lastKeys;
 unsigned int currentKeys;
@@ -75,4 +76,12 @@ void simulateKeyRelease(unsigned int key) {
 	}
 	
 	SendInput(1, &ip, sizeof(INPUT));
+}
+
+void handleHat(unsigned int hat) {
+	if(hat & BIT(0)) iReport.bHats = 0;
+	else if(hat & BIT(1)) iReport.bHats = 1;
+	else if(hat & BIT(2)) iReport.bHats = 2;
+	else if(hat & BIT(3)) iReport.bHats = 3;
+	else iReport.bHats = -1;
 }

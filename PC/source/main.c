@@ -28,6 +28,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	bool vJoy = true;
 	UINT iInterface = settings.vJoyDevice;
+	int hatButtons = 0;
 	
 	iReport.wAxisX = JOY_MIDDLE;
 	iReport.wAxisY = JOY_MIDDLE;
@@ -135,6 +136,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_ZL, settings.ZL);
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
+				
+				handleHat(hatButtons);
 				
 				if(settings.circlePad == keys) {
 					handleKey(KEY_CPAD_RIGHT, settings.PadRight);

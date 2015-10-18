@@ -71,6 +71,9 @@ static struct keyMapping getButton(char *string) {
 	else if(strcmp(string, "PAGE UP") == 0) k.virtualKey = VK_PRIOR;
 	else if(strcmp(string, "PAGE DOWN") == 0) k.virtualKey = VK_NEXT;
 	else if(strcmp(string, "WINDOWS") == 0) k.virtualKey = VK_LWIN;
+	else if(strcmp(string, "ESCAPE") == 0) k.virtualKey = VK_ESCAPE;
+	else if(strcmp(string, "CONTROL") == 0) k.virtualKey = VK_CONTROL;
+	else if(strcmp(string, "ALT") == 0) k.virtualKey = VK_MENU;
 	else if(strcmp(string, "NONE") == 0) k.virtualKey = 0;
 	
 	else if(strcmp(string, "JOY1") == 0) { k.useJoypad = 1; k.joypadButton = 1 << 0; }
@@ -89,6 +92,11 @@ static struct keyMapping getButton(char *string) {
 	else if(strcmp(string, "JOY14") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 5; }
 	else if(strcmp(string, "JOY15") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 6; }
 	else if(strcmp(string, "JOY16") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 7; }
+	
+	else if(strcmp(string, "NORTH") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 0; }
+	else if(strcmp(string, "EAST") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 1; }
+	else if(strcmp(string, "SOUTH") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 2; }
+	else if(strcmp(string, "WEST") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 3; }
 	
 	else k.virtualKey = (int)string[0];
 	

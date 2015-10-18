@@ -35,6 +35,10 @@
 		if(currentKeys & DSKey) joyButtons |= PCKey.joypadButton << 8;\
 		else joyButtons &= ~(PCKey.joypadButton << 8);\
 	}\
+	else if(PCKey.useJoypad == 3) {\
+		if(currentKeys & DSKey) hatButtons |= PCKey.joypadButton;\
+		else hatButtons &= ~(PCKey.joypadButton);\
+	}\
 } while(0)
 
 #define BIT(n) (1 << (n))
@@ -72,7 +76,7 @@ typedef enum {
 } KEYPAD_BITS;
 
 struct keyMapping {
-	unsigned char useJoypad; // 0 keyboard key, 1 joypad1-8, 2 joypad9-16
+	unsigned char useJoypad; // 0 keyboard key, 1 joypad1-8, 2 joypad9-16, 3 hat
 	union {
 		unsigned char virtualKey;
 		unsigned char joypadButton;
@@ -105,3 +109,4 @@ extern struct touch currentTouch;
 inline unsigned int mapVirtualKey(unsigned int key);
 void simulateKeyNewpress(unsigned int key);
 void simulateKeyRelease(unsigned int key);
+void handleHat(unsigned int hat);

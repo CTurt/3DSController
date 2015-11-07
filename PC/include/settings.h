@@ -18,6 +18,7 @@ struct settings {
 	enum analogue touch;
 	int mouseSpeed;
 	struct keyMapping A, B, X, Y, L, R, ZL, ZR, Left, Right, Up, Down, Start, Select, Tap;
+	bool isUsingPov;
 };
 
 extern struct settings settings;

@@ -97,11 +97,13 @@ struct touch {
 extern unsigned int lastKeys;
 extern unsigned int currentKeys;
 
+extern unsigned int volume;
+
 extern struct circlePad circlePad;
 extern struct cStick cStick;
 extern struct touch lastTouch;
 extern struct touch currentTouch;
 
-inline unsigned int mapVirtualKey(unsigned int key);
+unsigned int mapVirtualKey(unsigned int key);
 void simulateKeyNewpress(unsigned int key);
 void simulateKeyRelease(unsigned int key);

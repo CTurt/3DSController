@@ -31,6 +31,7 @@ struct settings defaultSettings = {
 	Start: { 1, {VK_RETURN} },
 	Select: { 1, {VK_BACK} },
 	Tap: { 1, {'T'} },
+	isUsingPov: false,
 };
 
 static bool getSetting(char *name, char *src, char *dest) {
@@ -88,6 +89,9 @@ static struct keyMapping getButton(char *string) {
 	else if(strcmp(string, "JOY14") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 5; }
 	else if(strcmp(string, "JOY15") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 6; }
 	else if(strcmp(string, "JOY16") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 7; }
+	else if(strcmp(string, "POV") == 0) {settings.isUsingPov = true;} 
+	//No matter what the others are, if any are set to true then we are using the POV hat for the DPad
+	//This would mean if any setting at all is POV then the dpad is suddenly a POV.
 	
 	else k.virtualKey = (int)string[0];
 	

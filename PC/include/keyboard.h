@@ -3,4 +3,4 @@
 extern unsigned char keyboardActive;
 extern unsigned char keyboardToggle;
 
-inline char currentKeyboardKey(void);
+char currentKeyboardKey(void);

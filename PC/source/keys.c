@@ -7,6 +7,7 @@
 
 unsigned int lastKeys;
 unsigned int currentKeys;
+unsigned int volume; //slider
 
 struct circlePad circlePad;
 struct cStick cStick;

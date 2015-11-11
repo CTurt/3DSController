@@ -13,6 +13,10 @@
 #define joyY iReport.wAxisY
 #define joyRX iReport.wAxisXRot
 #define joyRY iReport.wAxisYRot
+//#define joyVolume iReport.wSlider
+#define joyVolume iReport.wAxisZ
+#define povHat iReport.bHats
+
 #define joyButtons iReport.lButtons
 
 #define JOY_MIDDLE (128 * 128)

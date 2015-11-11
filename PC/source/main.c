@@ -121,15 +121,19 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				memcpy(&circlePad, &buffer.circlePad, 4);
 				memcpy(&currentTouch, &buffer.touch, 4);
 				memcpy(&cStick, &buffer.cStick, 4);
+				memcpy(&volume, &buffer.volume, 4);
+				//printf("\rVolume is currently: %x ", volume); //test
 				
 				handleKey(KEY_A, settings.A);
 				handleKey(KEY_B, settings.B);
 				handleKey(KEY_SELECT, settings.Select);
 				handleKey(KEY_START, settings.Start);
-				handleKey(KEY_DRIGHT, settings.Right);
-				handleKey(KEY_DLEFT, settings.Left);
-				handleKey(KEY_DUP, settings.Up);
-				handleKey(KEY_DDOWN, settings.Down);
+				if(!settings.isUsingPov) { //Handle normally if not using POV in settings.
+					handleKey(KEY_DRIGHT, settings.Right);
+					handleKey(KEY_DLEFT, settings.Left);
+					handleKey(KEY_DUP, settings.Up);
+					handleKey(KEY_DDOWN, settings.Down);
+				}
 				handleKey(KEY_R, settings.R);
 				handleKey(KEY_L, settings.L);
 				handleKey(KEY_ZR, settings.ZR);
@@ -180,17 +184,27 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 							SetCursorPos((int)((double)currentTouch.x * widthMultiplier), (int)((double)currentTouch.y * heightMultiplier));
 						}
 					}
-					else if(settings.touch == joystick1) {
-						joyX = (currentTouch.x) * 128;
-						joyY = (currentTouch.y) * 128;
+					else if(settings.touch == joystick1) { //made a little bit more accurate to the screen size.
+						joyX = (int)((float)(currentTouch.x) * 102.3f);
+						joyY = (int)((float)(currentTouch.y) * 136.5f);
 					}
 					
 					else if(settings.touch == joystick2) {
-						joyRX = (currentTouch.x) * 128;
-						joyRY = (currentTouch.y) * 128;
+						joyRX = (int)((float)(currentTouch.x) * 102.3f);
+						joyRY = (int)((float)(currentTouch.y) * 136.5f);
 					}
 					else {
 						handleKey(KEY_TOUCH, settings.Tap);
+					}
+				} else { //If we are not touching, move to center (Like if you release the joystick on a normal controller).
+					if(settings.touch == joystick1) {
+						joyX = 16383; //Halfway between the x
+						joyY = 16383; //Halfway between the y
+					}
+					
+					else if(settings.touch == joystick2) {
+						joyRX = 16383; //Halfway between the rx
+						joyRY = 16383; //Halfway between the ry
 					}
 				}
 				
@@ -230,6 +244,43 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 					joyRX = (cStick.x + 128) * 128;
 					joyRY = (128 - cStick.y) * 128;
 				}
+				
+				
+				if(settings.isUsingPov) {
+					if((currentKeys & KEY_DUP) && !(currentKeys & KEY_DLEFT)) {
+						if((currentKeys & KEY_DRIGHT)) {
+							povHat = 4500;
+						} else {
+							povHat = 0;
+						}
+					} else if((currentKeys & KEY_DRIGHT)) {
+						if((currentKeys & KEY_DDOWN)) {
+							povHat = 13500;
+						} else {
+							povHat = 9000;
+						}
+					} else if((currentKeys & KEY_DDOWN)) {
+						if((currentKeys & KEY_DLEFT)) {
+							povHat = 22500;
+						} else {
+							povHat = 18000;
+						}
+					} else if((currentKeys & KEY_DLEFT)) {
+						if ((currentKeys & KEY_DUP)) {
+							povHat = 31500;
+						} else {
+							povHat = 27000;
+						}
+					}
+					
+					if(!((currentKeys & KEY_DUP) || (currentKeys & KEY_DRIGHT) || (currentKeys & KEY_DDOWN) || (currentKeys & KEY_DLEFT))) {
+						//If none are pressed, reset the POV hat
+						povHat = -1;
+					}
+					
+				}
+				
+				joyVolume = volume * 512;
 				
 				break;
 		}

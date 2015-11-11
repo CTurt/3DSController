@@ -51,6 +51,8 @@ struct packet {
 				short x;
 				short y;
 			} cStick;
+			
+			unsigned int volume;
 		};
 		struct keysPacket keysPacket;
 		

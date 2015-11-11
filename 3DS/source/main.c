@@ -144,7 +144,7 @@ int main(void) {
 		}
 		
 		sendKeys(kHeld, circlePad, touch, cStick, volume);
-		drawString(10, 10, "Volume: %x", volume);
+		//drawString(10, 10, "Volume: %x", volume);
 		//receiveBuffer(sizeof(struct packet));
 		
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) {

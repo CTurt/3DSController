@@ -150,7 +150,7 @@ endif
 $(OUTPUT).3dsx	:	$(OUTPUT).elf
 
 $(OUTPUT).3ds	:	$(OUTPUT)stripped.elf
-	makerom -f cci -o $(OUTPUT).3ds -rsf "$(TOPDIR)/cxi/gw_workaround.rsf" -target d -exefslogo -elf $(OUTPUT)stripped.elf -icon "$(TOPDIR)/cxi/icon.icn" -banner "$(TOPDIR)/cxi/banner.bnr"
+	makerom -f cci -o $(OUTPUT).3ds -rsf "$(TOPDIR)/cxi/build_cia.rsf" -target t -exefslogo -elf $(OUTPUT)stripped.elf -icon "$(TOPDIR)/cxi/icon.icn" -banner "$(TOPDIR)/cxi/banner.bnr"
 
 $(OUTPUT).cia	:	$(OUTPUT)stripped.elf
 	makerom -f cia -o $(OUTPUT).cia -elf $(OUTPUT)stripped.elf -rsf "$(TOPDIR)/cxi/build_cia.rsf" -icon "$(TOPDIR)/cxi/icon.icn" -banner "$(TOPDIR)/cxi/banner.bnr" -exefslogo -target t

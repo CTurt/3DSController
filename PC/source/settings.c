@@ -32,7 +32,6 @@ struct settings defaultSettings = {
 	Start: { 1, {VK_RETURN} },
 	Select: { 1, {VK_BACK} },
 	Tap: { 1, {'T'} },
-	isUsingPov: false,
 };
 
 static bool getSetting(char *name, char *src, char *dest) {
@@ -93,14 +92,6 @@ static struct keyMapping getButton(char *string) {
 	else if(strcmp(string, "JOY14") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 5; }
 	else if(strcmp(string, "JOY15") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 6; }
 	else if(strcmp(string, "JOY16") == 0) { k.useJoypad = 2; k.joypadButton = 1 << 7; }
-	else if(strcmp(string, "POV") == 0) {settings.isUsingPov = true;} 
-	//No matter what the others are, if any are set to true then we are using the POV hat for the DPad
-	//This would mean if any setting at all is POV then the dpad is suddenly a POV.
-	
-	else if(strcmp(string, "NORTH") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 0; }
-	else if(strcmp(string, "EAST") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 1; }
-	else if(strcmp(string, "SOUTH") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 2; }
-	else if(strcmp(string, "WEST") == 0) { k.useJoypad = 3; k.joypadButton = 1 << 3; }
 	
 	else k.virtualKey = (int)string[0];
 	
@@ -153,6 +144,11 @@ bool readSettings(void) {
 		else if(strcmp(setting, "JOYSTICK1") == 0) settings.cStick = joystick1;
 		else if(strcmp(setting, "JOYSTICK2") == 0) settings.cStick = joystick2;
 		else if(strcmp(setting, "KEYS") == 0) settings.cStick = keys;
+	}
+	
+	if(getSetting("D Pad: ", buffer, setting)) {
+		if(strcmp(setting, "KEYS") == 0) settings.dPad = key;
+		if(strcmp(setting, "POV") == 0) settings.dPad = pov;
 	}
 	
 	if(getSetting("Touch: ", buffer, setting)) {

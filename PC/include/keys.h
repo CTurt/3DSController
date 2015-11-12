@@ -35,10 +35,6 @@
 		if(currentKeys & DSKey) joyButtons |= PCKey.joypadButton << 8;\
 		else joyButtons &= ~(PCKey.joypadButton << 8);\
 	}\
-	else if(PCKey.useJoypad == 3) {\
-		if(currentKeys & DSKey) hatButtons |= PCKey.joypadButton;\
-		else hatButtons &= ~(PCKey.joypadButton);\
-	}\
 } while(0)
 
 #define BIT(n) (1 << (n))
@@ -111,4 +107,3 @@ extern struct touch currentTouch;
 unsigned int mapVirtualKey(unsigned int key);
 void simulateKeyNewpress(unsigned int key);
 void simulateKeyRelease(unsigned int key);
-void handleHat(unsigned int hat);

@@ -28,7 +28,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	bool vJoy = true;
 	UINT iInterface = settings.vJoyDevice;
-	int hatButtons = 0;
 	
 	iReport.wAxisX = JOY_MIDDLE;
 	iReport.wAxisY = JOY_MIDDLE;
@@ -54,6 +53,8 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 	
 	ContPovNumber = GetVJDContPovNumber(iInterface);
 	//int DiscPovNumber = GetVJDDiscPovNumber(iInterface);
+	
+	if((settings.dPad == pov) && !(ContPovNumber == 0)) settings.dPad = cPov;
 	
 	if(vJoy && !updateJoystick(iInterface)) {
 		printf("vJoy failed (3)! Buttons will still work, but joystick won't work.\nIs vJoy device %d configured?\n",iInterface);
@@ -128,7 +129,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_B, settings.B);
 				handleKey(KEY_SELECT, settings.Select);
 				handleKey(KEY_START, settings.Start);
-				if(!settings.isUsingPov) { //Handle normally if not using POV in settings.
+				if(settings.dPad == key) { //Handle normally if not using POV in settings.
 					handleKey(KEY_DRIGHT, settings.Right);
 					handleKey(KEY_DLEFT, settings.Left);
 					handleKey(KEY_DUP, settings.Up);
@@ -140,8 +141,6 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				handleKey(KEY_ZL, settings.ZL);
 				handleKey(KEY_X, settings.X);
 				handleKey(KEY_Y, settings.Y);
-				
-				handleHat(hatButtons);
 				
 				if(settings.circlePad == keys) {
 					handleKey(KEY_CPAD_RIGHT, settings.PadRight);
@@ -246,7 +245,7 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 				}
 				
 				
-				if(settings.isUsingPov) {
+				if(settings.dPad == cPov) {
 					if((currentKeys & KEY_DUP) && !(currentKeys & KEY_DLEFT)) {
 						if((currentKeys & KEY_DRIGHT)) {
 							povHat = 4500;
@@ -278,6 +277,14 @@ int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow)
 						povHat = -1;
 					}
 					
+				}
+				
+				else if(settings.dPad == pov) {
+					if((currentKeys & KEY_DUP) && !(currentKeys & KEY_DLEFT)) iReport.bHats = 0;
+					else if(currentKeys & KEY_DRIGHT) iReport.bHats = 1;
+					else if (currentKeys & KEY_DDOWN) iReport.bHats = 2;
+					else if (currentKeys & KEY_DLEFT) iReport.bHats = 3;
+					else iReport.bHats = -1;
 				}
 				
 				joyVolume = volume * 512;

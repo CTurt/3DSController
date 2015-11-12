@@ -78,11 +78,3 @@ void simulateKeyRelease(unsigned int key) {
 	
 	SendInput(1, &ip, sizeof(INPUT));
 }
-
-void handleHat(unsigned int hat) {
-	if(hat & BIT(0)) iReport.bHats = 0;
-	else if(hat & BIT(1)) iReport.bHats = 1;
-	else if(hat & BIT(2)) iReport.bHats = 2;
-	else if(hat & BIT(3)) iReport.bHats = 3;
-	else iReport.bHats = -1;
-}

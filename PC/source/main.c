@@ -1,6 +1,6 @@
 // 3DS Controller Server
 
-#define VERSION 0.7
+#define VERSION "0.7.2"
 
 #include <stdio.h>
 #include <stdbool.h>
@@ -14,7 +14,7 @@
 #include "keyboard.h"
 
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nShow) {
-	printf("3DS Controller Server %.1f\n", VERSION);
+	printf("3DS Controller Server %s\n", VERSION);
 	
 	DWORD screenWidth = GetSystemMetrics(SM_CXSCREEN);
 	DWORD screenHeight = GetSystemMetrics(SM_CYSCREEN);

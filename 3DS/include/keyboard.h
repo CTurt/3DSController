@@ -8,4 +8,4 @@ extern unsigned char keyboardToggle;
 extern unsigned char keyboardGfx[320 * 240 * 3];
 
 void preRenderKeyboard(void);
-inline void drawKeyboard(void);
+extern void drawKeyboard(void);

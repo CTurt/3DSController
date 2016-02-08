@@ -5,7 +5,7 @@ BasicInfo:
   ContentType             : Application # Application / SystemUpdate / Manual / Child / Trial
   Logo                    : Nintendo # Nintendo / Licensed / Distributed / iQue / iQueForSystem
 
-Rom:
+RomFs:
   # Specifies the root path of the file system to include in the ROM.
   # HostRoot                : "$(ROMFS_ROOT)"
 
@@ -26,21 +26,6 @@ Option:
   FreeProductCode         : true # Removes limitations on ProductCode
   EnableCrypt             : false # Enables encryption for NCCH and CIA
   MediaFootPadding        : false # If true CCI files are created with padding
-
-ExeFs: # these are the program segments from the ELF, check your elf for the appropriate segment names
-  ReadOnly: 
-   - .rodata
-   - RO
-  ReadWrite: 
-   - .data
-   - RO
-  Text: 
-   - .init
-   - .text
-   - STUP_ENTRY
-   
-PlainRegion: # only used with SDK ELFs 
- # - .module_id
   
 AccessControlInfo:
   # UseOtherVariationSaveData : true

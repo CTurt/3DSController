@@ -53,10 +53,10 @@ int main(void) {
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
-	SOC_Initialize((u32 *)memalign(0x1000, 0x100000), 0x100000);
+	socInit((u32 *)memalign(0x1000, 0x100000), 0x100000);
 	
 	u32 wifiStatus = 0;
-	ACU_GetWifiStatus(NULL, &wifiStatus);
+	ACU_GetWifiStatus(&wifiStatus);
 	if(!wifiStatus) {
 		hang("No WiFi! Is your wireless slider on?");
 	}
@@ -150,7 +150,7 @@ int main(void) {
 	
 	enableBacklight();
 	
-	SOC_Shutdown();
+	SOCU_ShutdownSockets();
 	
 	svcCloseHandle(fileHandle);
 	fsExit();

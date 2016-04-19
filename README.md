@@ -30,10 +30,22 @@ If using version 0.6 or above, up to 16 joystick buttons are available. If you w
 
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
+### Setup and Usage (Linux)
+Follow the Windows instructions, but use `3DSController.py` instead of the EXE.
+
+Joystick emulation is not supported.
+
+May work on OS X too, but this is not tested.
+
 ### Configuration
 Find the line `Port: 8889` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.
+
+### Configuration (Linux)
+The configuration is in `3DSController.py`, not the INI.
+
+Joystick emulation is not supported.
 
 ### Troubleshooting
 - Make sure that you are using the 3DS and PC application from the same release,

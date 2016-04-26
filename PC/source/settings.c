@@ -58,6 +58,7 @@ static struct keyMapping getButton(char *string) {
 	k.useJoypad = 0;
 	if(strcmp(string, "SPACE") == 0) k.virtualKey = VK_SPACE;
 	else if(strcmp(string, "CLICK") == 0) k.virtualKey = VK_LBUTTON;
+	else if(strcmp(string, "LEFT CLICK") == 0) k.virtualKey = VK_LBUTTON;
 	else if(strcmp(string, "RIGHT CLICK") == 0) k.virtualKey = VK_RBUTTON;
 	else if(strcmp(string, "ENTER") == 0) k.virtualKey = VK_RETURN;
 	else if(strcmp(string, "BACKSPACE") == 0) k.virtualKey = VK_BACK;

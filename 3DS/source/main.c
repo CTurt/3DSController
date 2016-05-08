@@ -157,6 +157,7 @@ int main(void) {
 	svcCloseHandle(fileHandle);
 	fsExit();
 	
+	gspLcdExit();
 	gfxExit();
 	acExit();
 	

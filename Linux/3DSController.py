@@ -117,14 +117,18 @@ def key_to_keysym(key):
 	
 	return key
 
-def press_key(key):
+def action_key(key, action):
+	x_action = Xlib.X.ButtonRelease
+	x_action2 = Xlib.X.KeyRelease
+	if action:
+		x_action = Xlib.X.ButtonPress
+		x_action2 = Xlib.X.KeyPress
+    
 	if key is LMouse or key is RMouse:
 		if key is LMouse: button = 1
 		if key is RMouse: button = 3
 		button = disp.get_pointer_mapping()[button-1] # account for left-handed mice
-		disp.xtest_fake_input(Xlib.X.ButtonPress, button)
-		disp.sync()
-		disp.xtest_fake_input(Xlib.X.ButtonRelease, button)
+		disp.xtest_fake_input(x_action, button)
 		disp.sync()
 		return
 	
@@ -132,10 +136,14 @@ def press_key(key):
 	if not keysym: return
 	
 	keycode = disp.keysym_to_keycode(keysym)
-	disp.xtest_fake_input(Xlib.X.KeyPress, keycode)
+	disp.xtest_fake_input(x_action2, keycode)
 	disp.sync()
-	disp.xtest_fake_input(Xlib.X.KeyRelease, keycode)
-	disp.sync()
+	
+def press_key(key):
+	action_key(key,True)
+        
+def release_key(key):
+	action_key(key,False)
 
 def move_mouse(x,y):
 	x=int(x)
@@ -170,6 +178,7 @@ prevkeys = 0
 touch_start = 0
 touch_last_x = 0
 touch_last_y = 0
+keyboard_prevkey = currentKeyboardKey(0, 0)
 
 while True:
 	rawdata, addr = sock.recvfrom(4096)
@@ -202,12 +211,25 @@ while True:
 		for btnid in range(16):
 			if newkeys & (1<<btnid):
 				press_key(btn_map[keynames[btnid]])
+			if oldkeys & (1<<btnid):
+				release_key(btn_map[keynames[btnid]])
 		if newkeys & keys.Tap:
 			if data["keyboardActive"]:
-				press_key(currentKeyboardKey(data["touchX"], data["touchY"]))
+				keyboard_prevkey = currentKeyboardKey(data["touchX"], data["touchY"])
+				press_key(keyboard_prevkey)
 			elif touch is Button:
 				press_key(btn_map["Tap"])
 			touch_start = time.time()
+		if prevkeys & keys.Tap:
+			if data["keyboardActive"] & (keyboard_prevkey != currentKeyboardKey(data["touchX"], data["touchY"])):
+				release_key(keyboard_prevkey)
+				keyboard_prevkey = currentKeyboardKey(data["touchX"], data["touchY"])
+				press_key(keyboard_prevkey)
+		if oldkeys & keys.Tap:
+			if data["keyboardActive"]:
+				release_key(keyboard_prevkey)
+			elif touch is Button:
+				release_key(btn_map["Tap"])
 		if data["keys"] & keys.Tap:
 			if touch is MouseAbs:
 				x = (data["touchX"]-abs_deadzone) / (320.0-abs_deadzone*2)
@@ -222,6 +244,7 @@ while True:
 		
 		if oldkeys & keys.Tap and touch_click and time.time()-touch_start < 0.1:
 			press_key(LMouse)
+			release_key(LMouse)
 		
 		if abs(data["circleX"])>=16 or abs(data["circleY"])>=16:
 			move_mouse(data["circleX"]*mouse_speed/32.0, -data["circleY"]*mouse_speed/32.0)

@@ -31,9 +31,15 @@ If using version 0.6 or above, up to 16 joystick buttons are available. If you w
 If using Ninjhax press Start and Select to return to the Homebrew Loader, otherwise you can just exit with the Home button.
 
 ### Setup and Usage (Linux)
+-For keyboard emulation
 Follow the Windows instructions, but use `3DSController.py` instead of the EXE.
 
-Joystick emulation is not supported.
+-For Joystick emulation 
+First, install [python-uinput](https://github.com/tuomasjjrasanen/python-uinput). BEWARE: The latest release of this library as of the writing of this tutorial is 0.10.2 which is broken for most updated systems. Download the master branch directly.
+
+Make sure that uinput module is running. You can do it from cosole like so: `#!sudo modprobe uinput`
+
+Then, follow the Windows instructions, but use `3DSController_gamepad.py` instead of the EXE.
 
 May work on OS X too, but this is not tested.
 

@@ -34,8 +34,7 @@ If using Ninjhax press Start and Select to return to the Homebrew Loader, otherw
 -For keyboard emulation
 Follow the Windows instructions, but use `3DSController.py` instead of the EXE.
 
--For Joystick emulation
-First, install [python-uinput](https://github.com/tuomasjjrasanen/python-uinput). BEWARE: The latest release of this library as of the writing of this tutorial is 0.10.2 which is broken for most updated systems. Download the master branch directly.
+-For Joystick emulation, first, install [python-uinput](https://github.com/tuomasjjrasanen/python-uinput). BEWARE: The latest release of this library as of the writing of this tutorial is 0.10.2 which is broken for most updated systems. Download the master branch directly.
 
 Make sure that uinput module is running. You can do it from cosole like so: `#!sudo modprobe uinput`
 

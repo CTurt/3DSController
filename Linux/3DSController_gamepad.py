@@ -11,7 +11,7 @@ import uinput
 port = 8889
 
 #Valid values can be found in any of these locations on your Linux system (some may not exist):
-# /usr/include/linux/input.h
+# /usr/include/linux/input-event-codes.h
 #The virtual device is defined on the device variable and the mapping of the keys on btn_map
 #RECAP keynames (DO NOT TOUCH) are the keys that we expect commming from the 3ds, device is
 #the virtual device that we define and btn_map maps what we recieve with our virtual device

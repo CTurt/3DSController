@@ -48,9 +48,9 @@ Find the line `Port: 8889` and change it to your desired port, do this for both 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.
 
 ### Configuration (Linux)
-The configuration is in `3DSController.py`, not the INI.
+The configuration for the keyboard emulation is in `3DSController.py`, not the INI.
 
-Joystick emulation is not supported.
+The configuration for the joystick emulation is in `3DSController_gamepad.py`, not the INI.
 
 ### Troubleshooting
 - Make sure that you are using the 3DS and PC application from the same release,

@@ -40,10 +40,9 @@ bool readSettings(void) {
 	u64 size;
 	u32 bytesRead;
 	
-	FS_Archive sdmcArchive = (FS_Archive){ARCHIVE_SDMC, (FS_Path){PATH_EMPTY, 1, (u8*)""}};
 	FS_Path filePath = fsMakePath(PATH_ASCII, "/3DSController.ini");
 	
-	Result ret = FSUSER_OpenFileDirectly(&fileHandle, sdmcArchive, filePath, FS_OPEN_READ, 0x00000000);
+	Result ret = FSUSER_OpenFileDirectly(&fileHandle, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""), filePath, FS_OPEN_READ, 0x00000000);
 	if(ret) return false;
 	
 	ret = FSFILE_GetSize(fileHandle, &size);

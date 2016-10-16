@@ -19,7 +19,7 @@ void hang(char *message) {
 		
 		clearScreen();
 		drawString(10, 10, "%s", message);
-		drawString(10, 20, "Start and Select to exit");
+		drawString(10, 20, "Press Start and Select to exit.");
 		
 		u32 kHeld = hidKeysHeld();
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
@@ -42,23 +42,37 @@ int main(void) {
 	preRenderKeyboard();
 	
 	clearScreen();
-	drawString(10, 10, "Initing FS...");
+	drawString(10, 10, "Initialising FS...");
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
 	fsInit();
 	
 	clearScreen();
-	drawString(10, 10, "Initing SOC...");
+	drawString(10, 10, "Initialising SOC...");
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
 	socInit((u32 *)memalign(0x1000, 0x100000), 0x100000);
 	
-	u32 wifiStatus = 0;
-	ACU_GetWifiStatus(&wifiStatus);
-	if(!wifiStatus) {
-		hang("No WiFi! Is your wireless slider on?");
+	while(aptMainLoop()) { /* Wait for WiFi; break when WiFiStatus is truthy */
+		u32 wifiStatus = 0;
+		ACU_GetWifiStatus(&wifiStatus);
+		if(wifiStatus) break;
+		
+		hidScanInput();
+		clearScreen();
+		drawString(10, 10, "Waiting for WiFi connection...");
+		drawString(10, 20, "Ensure you are in range of an access point,");
+		drawString(10, 30, "and that wireless communications are enabled.");
+		drawString(10, 50, "You can alternatively press Start and Select to exit.");
+		
+		u32 kHeld = hidKeysHeld();
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
+		
+		gfxFlushBuffers();
+		gspWaitForVBlank();
+		gfxSwapBuffers();
 	}
 	
 	clearScreen();

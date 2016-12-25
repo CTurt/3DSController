@@ -7,7 +7,7 @@ The latest release will always be downloadable from [here](https://github.com/CT
 
 If you are updating to 0.6 from an older version, you will need to make sure you update vJoy to the recommended version.
 
-### Setup and Usage
+### Setup and Usage (Windows)
 Firstly, if you want to be able to register the circle pad or touch screen as a joystick you will need to install [vJoy (version 2.0.5-120515 is preferable)](http://sourceforge.net/projects/vjoystick/files/Beta%202.x/2.0.5-120515/vJoy_205_050515.exe/download). However, if you just want to use keyboard buttons, this is not necessary.
 
 Extract the archive and copy the executable in the `3DS` directory with the extension that applies to your loader: `3DSController.3dsx` and `3DSController.smdh` for Ninjhax, `3DSController.3ds` for flashcards, or `3DSController.cia` for CFWs, into your 3DS's SD card or flashcard's micro SD card.
@@ -42,7 +42,7 @@ Then, follow the Windows instructions, but use `3DSController_gamepad.py` instea
 
 May work on OS X too, but this is not tested.
 
-### Configuration
+### Configuration (Windows)
 Find the line `Port: 8889` and change it to your desired port, do this for both the 3DS's `3DSController.ini` and the PC's `3DSController.ini`.
 
 To use custom key bindings, just change the PC's `3DSController.ini` file, it should be straight forward.

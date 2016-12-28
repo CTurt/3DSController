@@ -33,6 +33,7 @@ void hang(char *message) {
 int main(void) {
 	acInit();
 	gfxInitDefault();
+	gspLcdInit();
 	
 	gfxSetDoubleBuffering(GFX_TOP, false);
 	gfxSetDoubleBuffering(GFX_BOTTOM, false);
@@ -96,7 +97,7 @@ int main(void) {
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
-	disableBacklight();
+	GSPLCD_PowerOffBacklight(GSPLCD_SCREEN_BOTH);
 	
 	while(aptMainLoop()) {
 		hidScanInput();
@@ -117,7 +118,8 @@ int main(void) {
 				keyboardActive = !keyboardActive;
 				keyboardToggle = false;
 				
-				if(keyboardActive) enableBacklight();
+				if(keyboardActive) GSPLCD_PowerOnBacklight(GSPLCD_SCREEN_BOTH);
+				else GSPLCD_PowerOffBacklight(GSPLCD_SCREEN_BOTH);
 			}
 		}
 		else keyboardToggle = true;
@@ -162,13 +164,14 @@ int main(void) {
 	
 	exit:
 	
-	enableBacklight();
+	GSPLCD_PowerOnBacklight(GSPLCD_SCREEN_BOTH);
 	
 	SOCU_ShutdownSockets();
 	
 	svcCloseHandle(fileHandle);
 	fsExit();
 	
+	gspLcdExit();
 	gfxExit();
 	acExit();
 	

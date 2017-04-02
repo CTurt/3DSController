@@ -99,7 +99,7 @@ def currentKeyboardKey(x, y):
 	         "ASDFGHJKL-\13\13"+
 	         "ZXCVBNM,.?\13\13"+
 	         "\0\0\0     \0\0\0\0")
-	
+
 	if x>=1 and x<=312 and y>=78 and y<=208:
 		xi = int(x*12/320)
 		yi = int((y-78)*12/320)
@@ -108,13 +108,13 @@ def currentKeyboardKey(x, y):
 
 def key_to_keysym(key):
 	if not key: return 0
-	
+
 	if isinstance(key,str):
 		if key=="\x08": return Xlib.XK.XK_BackSpace
 		if key=="\13": return Xlib.XK.XK_Return
 		if key==" ": return Xlib.XK.XK_space
 		return Xlib.XK.string_to_keysym(key)
-	
+
 	return key
 
 def action_key(key, action):
@@ -123,7 +123,7 @@ def action_key(key, action):
 	if action:
 		x_action = Xlib.X.ButtonPress
 		x_action2 = Xlib.X.KeyPress
-    
+
 	if key is LMouse or key is RMouse:
 		if key is LMouse: button = 1
 		if key is RMouse: button = 3
@@ -131,17 +131,17 @@ def action_key(key, action):
 		disp.xtest_fake_input(x_action, button)
 		disp.sync()
 		return
-	
+
 	keysym = key_to_keysym(key)
 	if not keysym: return
-	
+
 	keycode = disp.keysym_to_keycode(keysym)
 	disp.xtest_fake_input(x_action2, keycode)
 	disp.sync()
-	
+
 def press_key(key):
 	action_key(key,True)
-        
+
 def release_key(key):
 	action_key(key,False)
 
@@ -149,14 +149,14 @@ def move_mouse(x,y):
 	x=int(x)
 	y=int(y)
 	if not x and not y: return
-	
+
 	disp.warp_pointer(x,y)
 	disp.sync()
 
 def move_mouse_abs_frac(x,y):
 	root = disp.screen().root
 	geom = root.get_geometry()
-	
+
 	root.warp_pointer(int(x*geom.width), int(y*geom.height))
 	disp.sync()
 
@@ -184,13 +184,13 @@ while True:
 	rawdata, addr = sock.recvfrom(4096)
 	rawdata = bytearray(rawdata)
 	#print("received message", rawdata, "from", addr)
-	
+
 	if rawdata[0]==command.CONNECT:
 		pass # CONNECT packets are empty
-	
+
 	if rawdata[0]==command.KEYS:
-		fields = struct.unpack("<BBxxIhhHHhh", rawdata)
-		
+		fields = struct.unpack("<BBxxIhhHHhhI", rawdata)
+
 		data = {
 			"command": fields[0],
 			"keyboardActive": fields[1],
@@ -201,13 +201,14 @@ while True:
 			"touchY": fields[6],
 			"cstickX": fields[7],
 			"cstickY": fields[8],
+			"volume": fields[9],
 		}
 		#print(data)
-		
+
 		newkeys = data["keys"] & ~prevkeys
 		oldkeys = ~data["keys"] & prevkeys
 		prevkeys = data["keys"]
-		
+
 		for btnid in range(16):
 			if newkeys & (1<<btnid):
 				press_key(btn_map[keynames[btnid]])
@@ -241,13 +242,13 @@ while True:
 				move_mouse(x, y)
 			touch_last_x = data["touchX"]
 			touch_last_y = data["touchY"]
-		
+
 		if oldkeys & keys.Tap and touch_click and time.time()-touch_start < 0.1:
 			press_key(LMouse)
 			release_key(LMouse)
-		
+
 		if abs(data["circleX"])>=16 or abs(data["circleY"])>=16:
 			move_mouse(data["circleX"]*mouse_speed/32.0, -data["circleY"]*mouse_speed/32.0)
-	
+
 	if rawdata[0]==command.SCREENSHOT:
 		pass # unused by both 3DS and PC applications

@@ -100,10 +100,10 @@ keys.CRight  = 1<<28 # circle pad
 keys.CLeft   = 1<<29 # circle pad
 keys.CUp     = 1<<30 # circle pad
 keys.CDown   = 1<<31 # circle pad
-	
+
 def press_key(key):
 	device.emit(key, 1)
-        
+
 def release_key(key):
 	device.emit(key,0)
 
@@ -119,14 +119,14 @@ touch_last_y = 0
 while True:
 	rawdata, addr = sock.recvfrom(4096)
 	rawdata = bytearray(rawdata)
-	#print("received message", rawdata, "from", addr)
-	
+
 	if rawdata[0]==command.CONNECT:
+		print("3DS Connected!")
 		pass # CONNECT packets are empty
-	
+
 	if rawdata[0]==command.KEYS:
-		fields = struct.unpack("<BBxxIhhHHhh", rawdata)
-		
+		fields = struct.unpack("<BBxxIhhHHhhI", rawdata)
+
 		data = {
 			"command": fields[0],
 			"keyboardActive": fields[1],
@@ -137,12 +137,13 @@ while True:
 			"touchY": fields[6],
 			"cstickX": fields[7],
 			"cstickY": fields[8],
+			"volume": fields[9],
 		}
-		
+
 		newkeys = data["keys"] & ~prevkeys
 		oldkeys = ~data["keys"] & prevkeys
 		prevkeys = data["keys"]
-		
+
 		for btnid in range(16):
 			if newkeys & (1<<btnid):
 				press_key(btn_map[keynames[btnid]])
@@ -157,6 +158,6 @@ while True:
 		device.emit(uinput.ABS_Y, 0-data["circleY"])
 		device.emit(uinput.ABS_RX, data["cstickX"], syn=False)
 		device.emit(uinput.ABS_RY, data["cstickY"])
-	
+
 	if rawdata[0]==command.SCREENSHOT:
 		pass # unused by both 3DS and PC applications

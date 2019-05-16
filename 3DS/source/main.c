@@ -153,7 +153,7 @@ int main(void) {
 		
 		//receiveBuffer(sizeof(struct packet));
 		
-		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
+		if((kHeld & KEY_START) && (kHeld & KEY_SELECT) && (kHeld & KEY_L)) longjmp(exitJmp, 1);
 		
 		gfxFlushBuffers();
 		gspWaitForVBlank();

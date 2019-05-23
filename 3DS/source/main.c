@@ -65,7 +65,7 @@ int main(void) {
 		drawString(10, 10, "Waiting for WiFi connection...");
 		drawString(10, 20, "Ensure you are in range of an access point,");
 		drawString(10, 30, "and that wireless communications are enabled.");
-		drawString(10, 50, "You can alternatively press Start and Select to exit.");
+		drawString(10, 50, "You can alternatively press Start and Select and Left Trigger to exit.");
 		
 		u32 kHeld = hidKeysHeld();
 		if((kHeld & KEY_START) && (kHeld & KEY_SELECT)) longjmp(exitJmp, 1);
@@ -80,7 +80,11 @@ int main(void) {
 	gfxFlushBuffers();
 	gfxSwapBuffers();
 	
-	if(!readSettings()) {
+	hidScanInput();
+	u32 kHeld = hidKeysHeld();
+	const char* settingsFile = "/3DSController.ini";
+	const char* settingsFileAlt = "/3DSController.alt.ini";
+	if(!readSettings(kHeld & KEY_L ? settingsFileAlt : settingsFile)) {
 		hang("Could not read 3DSController.ini!");
 	}
 	

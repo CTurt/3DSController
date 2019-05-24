@@ -9,6 +9,7 @@ import uinput
 # CONFIGURABLE REGION START - Don't touch anything above #
 ##########################################################
 port = 8889
+mouse_speed = 4
 
 btn_gamepad_map = {
 	"A": uinput.BTN_A,
@@ -73,6 +74,13 @@ gamepad_device = uinput.Device([
 	uinput.BTN_START,
 	uinput.BTN_SELECT,
 	uinput.BTN_MODE,
+	])
+
+mouse_device = uinput.Device([
+	uinput.REL_X,
+	uinput.REL_Y,
+	uinput.BTN_LEFT,
+	uinput.BTN_RIGHT
 	])
 
 keyboard_device = uinput.Device(keboard_matrix + btn_keyboard_map.values())
@@ -148,12 +156,17 @@ def press_btn(btn):
 def release_btn(btn):
 	gamepad_device.emit(btn, 0)
 
+def move_mouse(x,y):
+	x=int(x)
+	y=int(y)
+	if not x and not y: return
+	mouse_device.emit(uinput.REL_X, x)
+	mouse_device.emit(uinput.REL_Y, y)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.bind(("", port))
 
 prevkeys = 0
-
 touch_start = 0
 touch_last_x = 0
 touch_last_y = 0
@@ -210,10 +223,30 @@ while True:
 				if oldkeys & (1<<btnid):
 					release_btn(btn_gamepad_map[keynames[btnid]])
 
-		gamepad_device.emit(uinput.ABS_X, data["circleX"], syn=False)
-		gamepad_device.emit(uinput.ABS_Y, 0-data["circleY"])
-		gamepad_device.emit(uinput.ABS_RX, data["cstickX"], syn=False)
-		gamepad_device.emit(uinput.ABS_RY, data["cstickY"])
+			gamepad_device.emit(uinput.ABS_X, data["circleX"], syn=False)
+			gamepad_device.emit(uinput.ABS_Y, 0-data["circleY"])
+			gamepad_device.emit(uinput.ABS_RX, data["cstickX"], syn=False)
+			gamepad_device.emit(uinput.ABS_RY, data["cstickY"])
+
+			if newkeys & keys.Tap:
+				touch_start = time.time()
+
+			if data["keys"] & keys.Tap:
+				if not newkeys & keys.Tap:
+					x = (data["touchX"]-touch_last_x) * mouse_speed
+					y = (data["touchY"]-touch_last_y) * mouse_speed
+					move_mouse(x, y)
+				touch_last_x = data["touchX"]
+				touch_last_y = data["touchY"]
+
+			if oldkeys & keys.Tap and time.time()-touch_start < 0.1:
+				if newkeys & keys.L:
+					mouse_device.emit(uinput.BTN_RIGHT, 1)
+					mouse_device.emit(uinput.BTN_RIGHT, 0)
+				else:
+					mouse_device.emit(uinput.BTN_LEFT, 1)
+					mouse_device.emit(uinput.BTN_LEFT, 0)
+
 
 	if rawdata[0]==command.SCREENSHOT:
 		pass # unused by both 3DS and PC applications

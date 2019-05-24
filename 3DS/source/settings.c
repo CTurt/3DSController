@@ -35,12 +35,12 @@ static bool getSetting(char *name, char *src, char *dest) {
 	return false;
 }
 
-bool readSettings(void) {
+bool readSettings(const char *settingsFile) {
 	char *buffer = NULL;
 	u64 size;
 	u32 bytesRead;
 	
-	FS_Path filePath = fsMakePath(PATH_ASCII, "/3DSController.ini");
+	FS_Path filePath = fsMakePath(PATH_ASCII, settingsFile);
 	
 	Result ret = FSUSER_OpenFileDirectly(&fileHandle, ARCHIVE_SDMC, fsMakePath(PATH_EMPTY, ""), filePath, FS_OPEN_READ, 0x00000000);
 	if(ret) return false;

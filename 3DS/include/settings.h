@@ -12,4 +12,4 @@ extern struct settings defaultSettings;
 
 extern Handle fileHandle;
 
-bool readSettings(void);
+bool readSettings(const char *settingsFile);
